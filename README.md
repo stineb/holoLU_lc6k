@@ -1,3 +1,76 @@
+# PAGES Landcover6K protocols
+
+This repository contains protocols for the following purposes:
+
+- Defining simulation protocols and implementations of the land use forcing
+- Preparing land use model forcing files
+- Analysing model outputs
+
+## Simulation protocols
+
+### Implementation of the land use forcing
+
+#### Summary
+
+This is a description of how the land use forcing was implemented for simulations presented in (Stocker et al., 2017)[https://www.pnas.org/content/114/7/1492]. This may serve as a guide for implementations in other models targeted for the Landcover6K simulations.
+
+Four different time-varying input variables have to be provided, covering all time steps (12 ka BP - present) and are given as maps (gridded field for longitude and latitude). All preparation steps are done at a spatial resolution of 1 degree.
+
+1. Harvested area (gridcell fraction), defines the (forest) area that is cleared per year.
+2. Cropland area (gridcell fraction).
+3. Pasture area (gridcell fraction), defines only the pasture area of what would be forested otherwise (potential natural vegetation). 
+4. Cropland turnover rate (fraction/year), defines the extent of cropland abandoned and re-claimed from non-agricultural land each year.
+5. crop_suit ???
+6. Extent of permanent agriculture (logical), defines wether croplands in the respective gridcell is under permanent management or under a shifting cultivation regime.
+
+One additional, temporally constant input variables, also given as maps, has to be provided:
+
+1. Land suitability (gridcell fraction), defines the fraction of the gridcell that is suitable for agriculture. Remainder remains primary land. This is used to constrain the maximum extent of secondary land. Provided by variable `SUIT` in file `land_suit_sage_lpjgr.nc`.
+
+
+#### Procedure in LPX
+
+Fortran code used within LPX to read and interpret the land use forcing is given in the file `read_landuse_map.F`. The following steps (code extracted fromt that file) are crucial:
+
+1. Define the gridcell area fraction that remains inaccessible and therefore primary land (not affected by land conversion), based on the file `land_suit_sage_lpjgr.nc`:
+```Fortran
+inaccess(jpngr)   = max( 0.d0, land_fraction(jpngr) - fsuit )
+```
+
+2. Define wether land is under permanent of non-permanent (shifting cultivation-type) agriculture, based on the file `perm_lpjgr_holoLU2.nc`. Under non-permanent agriculture, a constant land turnover rate of 0.25 is assumed (a quarter of cropland area abandoned each year, variable `ltor`), and the fraction of land suitable for cropland cultivation (`cropsuit`) is set to be equal to the (temporally constant) accessible area fraction. Under permanent agriculture, a fallow rotation regime is assumed, corresponding to a three-field rotation for all years before 1850 CE, gradually shifting to no fallow for all years after 1960 CE. This is implemented using the variable `fallow_factor`. In this case (pre-1850), the fraction of land suitable (used) for cropland cultivation is set to 1.5 times (`3.0d0/2.0d0`) the cropland area (`lu_area(lucrop,jpngr)`). Note the difference: The prescribed cropland area (`lu_area(lucrop,jpngr)`) is the area *currently* (in a given year) under cultivation and fallow areas don't count toward that value. This implies that an additional 50% is fallow at each given point in time. The land turnover rate (`ltor`) is `fallow_factor / 3.d0`. Hence, for pre-1850 years, 50% of the land is "abandoned" (converted from actually cultivated cropland to fallow, which is treated as secondary land in LPX).  
+```
+!     -------------------------------------------------------------------------
+!     CROPSUIT and LAND TURNOVER RATE
+!     Land fraction suitable from cropland agriculture. 
+!     -------------------------------------------------------------------------
+          fallow_factor = max(
+     $         1.0d0,
+     $         min(
+     $         3.0d0/2.0d0,
+     $         3.0d0/2.0d0 - 0.5d0/110.0d0 * (realyear-1850.0d0)
+     $         ) )
+          
+          if (shifting_cultivation(jpngr)) then
+            cropsuit(jpngr) = accessible(jpngr)
+            ltor(jpngr)     = 0.25d0
+          else
+            cropsuit(jpngr) = max( lu_area(lucrop,jpngr),
+     $           min(
+     $           accessible(jpngr),
+     $           fallow_factor*lu_area(lucrop,jpngr)
+     $           ))
+            ltor(jpngr)    = fallow_factor / 3.d0
+          endif
+
+```
+
+
+## Preparing the land use forcing for BGC simulations
+
+
+
+
+
 Steps to add another scenario (given original files in NetCDF at any resolution)
 1. source('prepare_harvest_holoLU2.R’) done für hyde32_upper
 2. source('regrid_landuse_holoLU2.R')
