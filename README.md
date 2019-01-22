@@ -66,7 +66,7 @@ inaccess(jpngr)   = max( 0.d0, land_fraction(jpngr) - fsuit )
 
 ```
 
-3. The land use transition matrix is constructed. This contains $i \times j$ values, where $i$ and $j$ are the land use categories (primary, secondary, cropland, pasture), and the martrix $M_{i,j}$ (variable `DF_tr` below) defines the gridcell area fraction transiting from land use category $i$ to $j$. 
+3. **Only relevant for model developers** The land use transition matrix is constructed. This contains $i \times j$ values, where $i$ and $j$ are the land use categories (primary, secondary, cropland, pasture), and the martrix $M_{i,j}$ (variable `DF_tr` below) defines the gridcell area fraction transiting from land use category $i$ to $j$. 
 ```Fortran
 !     ADD LAND TURNOVER (shifting cultivation)
 !     -------------------------------------------------------------------------
@@ -118,6 +118,8 @@ inaccess(jpngr)   = max( 0.d0, land_fraction(jpngr) - fsuit )
         endif       
 ```
 
+4. **Only relevant for model developers** Add harvested area to the transition matrix. To be completed.
+
 
 ## Preparing the land use forcing for BGC simulations
 
@@ -128,7 +130,10 @@ In summary, the following steps have to be repeated for each added scenario (giv
 1. `r source('prepare_harvest_holoLU2.R’)` done only for `hyde32_upper`
 2. `r source('regrid_landuse_holoLU2.R')`
 3. `r source(‘regrid_shiftcult_holoLU2.R')`
-4. `r source(‘remove_fopen_holoLU2.R')`
+4. `r source(‘remove_fopen_holoLU2.R')` 
+To be completed: I will add a brief description of what went into creating the forcing files and how exactly they were created.
+
+
 
 <!-- ### Harvested area
 
