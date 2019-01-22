@@ -17,9 +17,9 @@ This is a description of how the land use forcing was implemented for simulation
 Four different time-varying input variables have to be provided, covering all time steps (12 ka BP - present) and are given as maps (gridded field for longitude and latitude). All preparation steps are done at a spatial resolution of 1 degree.
 
 1. Harvested area (gridcell fraction), defines the (forest) area that is cleared per year. Variable `aharv` in file `data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc`
-2. Cropland area (gridcell fraction). Variable `crop` in file `landuse_hyde32_baseline_pastcorr_lpjgr.nc`
-3. Pasture area (gridcell fraction), defines only the pasture area of what would be forested otherwise (potential natural vegetation). Variable `past` in file `landuse_hyde32_baseline_pastcorr_lpjgr.nc`
-4. Extent of permanent agriculture (logical), defines wether croplands in the respective gridcell is under permanent management or under a shifting cultivation regime. Variable `PERM` in file `perm_lpjgr_holoLU2.nc`
+2. Cropland area (gridcell fraction). Variable `crop` in file `data/landuse_hyde32_baseline_pastcorr_lpjgr.nc`
+3. Pasture area (gridcell fraction), defines only the pasture area of what would be forested otherwise (potential natural vegetation). Variable `past` in file `data/landuse_hyde32_baseline_pastcorr_lpjgr.nc`
+4. Extent of permanent agriculture (logical), defines wether croplands in the respective gridcell is under permanent management or under a shifting cultivation regime. Variable `PERM` in file `data/perm_lpjgr_holoLU2.nc`
 
 <!-- 4. Cropland turnover rate (fraction/year), defines the extent of cropland abandoned and re-claimed from non-agricultural land each year.
 5. crop_suit ???
@@ -130,10 +130,7 @@ In summary, the following steps have to be repeated for each added scenario (giv
 3. `r source(‘regrid_shiftcult_holoLU2.R')`
 4. `r source(‘remove_fopen_holoLU2.R')`
 
-### Harvested area
-
-
-
+<!-- ### Harvested area
 
 Preparation of harvest data (‘prepare_harvest_holoLU2.R'):
 * ‘extract_hydeslices_harvest.sh’ on Bern server: extract HYDE slices from 'harvest_hurtt_byarea_v2_historical_1500-2004_halfdeg.nc ‘ =>  harvest_hurtt_byarea_v2_halfdeg_hydeslices_tmp.nc
@@ -171,4 +168,4 @@ Regridding all files:
     * 1. regrid_suit_holoLU2.jnl: regrid SAGE suitable land fraction file to lpjgr
     * 2. regrid_perm_holoLU2.jnl: regrid permanent/non-permanent info using Ferret’s nice transformation function @nrst
     * 3. regrid_shiftcult_holoLU2.R: uses regridded permanent/non-permanent mask (perm_lpjgr_holoLU2.nc) and suitable fraction file (land_suit_sage_lpjgr.nc) to calculate “suitable fraction” and land turnover time. => shiftcultinfo_*_lpjgr_holoLU2.nc, inaccess_lpjgr_holoLU2.nc
-* remove_fopen_holoLU2.R: remove open vegetation fraction from pasture => landuse_hyde31_final_pastcorr_lpjgr.cdf
+* remove_fopen_holoLU2.R: remove open vegetation fraction from pasture => landuse_hyde31_final_pastcorr_lpjgr.cdf -->
