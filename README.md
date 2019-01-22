@@ -30,7 +30,7 @@ One additional, temporally constant input variables, also given as maps, has to 
 1. Land suitability (gridcell fraction), defines the fraction of the gridcell that is suitable for agriculture. Remainder remains primary land. This is used to constrain the maximum extent of secondary land. Provided by variable `SUIT` in file `land_suit_sage_lpjgr.nc`.
 
 
-#### Procedure in LPX
+#### Procedure in LPX as an example
 
 Fortran code used within LPX to read and interpret the land use forcing is given in the file `read_landuse_map.F`. The following steps (code extracted fromt that file) are crucial:
 
@@ -118,17 +118,22 @@ inaccess(jpngr)   = max( 0.d0, land_fraction(jpngr) - fsuit )
         endif       
 ```
 
+
 ## Preparing the land use forcing for BGC simulations
 
+This describes how the LPX land use forcing files are created - from original HYDE and KK10 files to final forcing files.
+
+In summary, the following steps have to be repeated for each added scenario (given original files in NetCDF at any resolution)
+
+1. `r source('prepare_harvest_holoLU2.R’)` done only for `hyde32_upper`
+2. `r source('regrid_landuse_holoLU2.R')`
+3. `r source(‘regrid_shiftcult_holoLU2.R')`
+4. `r source(‘remove_fopen_holoLU2.R')`
+
+### Harvested area
 
 
 
-
-Steps to add another scenario (given original files in NetCDF at any resolution)
-1. source('prepare_harvest_holoLU2.R’) done für hyde32_upper
-2. source('regrid_landuse_holoLU2.R')
-3. source(‘regrid_shiftcult_holoLU2.R')
-4. source(‘remove_fopen_holoLU2.R')
 
 Preparation of harvest data (‘prepare_harvest_holoLU2.R'):
 * ‘extract_hydeslices_harvest.sh’ on Bern server: extract HYDE slices from 'harvest_hurtt_byarea_v2_historical_1500-2004_halfdeg.nc ‘ =>  harvest_hurtt_byarea_v2_halfdeg_hydeslices_tmp.nc
