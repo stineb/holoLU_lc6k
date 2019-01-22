@@ -1,0 +1,8 @@
+use fpc_grid_r0_holoLU2.nc 
+
+let tmp  = fpc_grid[t=@ave]
+let tmp2 = tmp[m=8:9@sum]
+let bare = 1-tmp[m=@sum]
+let fopen= bare + tmp2
+
+save/clobber/file="fopen_r0_holoLU2.nc" fopen

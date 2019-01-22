@@ -1,0 +1,18 @@
+use "/alphadata01/bstocker/lpx/holoLU2/input_data/anthropogenic2d/landuse/harvest_hurtt_byarea_v2_lpjgr_backby_hyde31_final.nc"
+use "/alphadata01/bstocker/lpx/holoLU2/input_data/anthropogenic2d/landuse/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc"
+use "/alphadata01/bstocker/lpx/holoLU2/input_data/anthropogenic2d/landuse/harvest_hurtt_byarea_v2_lpjgr_backby_kk10.nc"
+use "/alphadata01/bstocker/lpx/holoLU2/input_data/anthropogenic2d/landuse/harvest_hurtt_byarea_v2_lpjgr_backby_kk11del.nc"
+use "/alphadata01/bstocker/data/landuse_data/luh_rcp_hurtt/harvest_hurtt_byarea_v2_halfdeg_hydeslices_tmp.nc"
+
+let ONES = aharv[i=@max,j=@max]*0+1
+let time = ONES*T
+
+let ONES_hurtt = f_vbh[i=@max,j=@max]*0+1
+let TIME_hurtt = ONES_hurtt*T
+
+list/nohead/format=(1g1.5,1e17.8)/file="aharv_holoLU2_hyde31.dat"/clobber TIME[d=1], aharv[i=@din,j=@din,d=1]
+list/nohead/format=(1g1.5,1e17.8)/file="aharv_holoLU2_hyde32.dat"/clobber TIME[d=2], aharv[i=@din,j=@din,d=2]
+list/nohead/format=(1g1.5,1e17.8)/file="aharv_holoLU2_kk10.dat"/clobber   TIME[d=3], aharv[i=@din,j=@din,d=3]
+list/nohead/format=(1g1.5,1e17.8)/file="aharv_holoLU2_kk10D.dat"/clobber  TIME[d=4], aharv[i=@din,j=@din,d=4]
+list/nohead/format=(1g1.5,1e17.8)/file="aharv_holoLU2_kk10D.dat"/clobber  TIME[d=4], aharv[i=@din,j=@din,d=4]
+list/nohead/format=(1g1.5,1e17.8)/file="aharv_hurtt.dat"/clobber  TIME_hurtt[d=5], f_vbh[i=@din,j=@din,d=5]

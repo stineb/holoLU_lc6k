@@ -1,0 +1,20 @@
+ set memory/size=500
+use "/alphadata01/bstocker/data/landuse_data/kk10/landuse_KK11_halfdeg_hydeslices.nc"
+use "/alphadata01/bstocker/data/landuse_data/hyde3_1/hyde31_final/landuse_hyde31_final_halfdeg.cdf"
+
+let lu=crop[d=2]+past[d=2]
+let fcrop=crop/lu
+let fpast=past/lu
+
+! let fpast_filled=fpast[x=@fln,y=@fln]
+! let fcrop_filled=fcrop[x=@fln,y=@fln]
+
+let crop_kk10=landuse[d=1]*fcrop
+let past_kk10=landuse[d=1]*fpast
+
+! save/clobber/file="landuse_KK11_halfdeg_hydeslices_hydefcrop.nc" crop_kk10
+! save/append/file="landuse_KK11_halfdeg_hydeslices_hydefcrop.nc" past_kk10
+
+save/clobber/file="fcrop_fpast_hyde31_final_halfdeg.nc" fpast
+save/append/file="fcrop_fpast_hyde31_final_halfdeg.nc" fcrop
+

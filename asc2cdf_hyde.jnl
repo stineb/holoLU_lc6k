@@ -1,0 +1,34 @@
+DEFINE AXIS/x=-179.91666667E:179.91666667E:0.0833333/units=degrees LON
+DEFINE AXIS/y=-89.91666667N:89.916666667N:0.0833333/units=degrees LAT
+DEFINE AXIS/t=$1:$1:1 TIME
+DEFINE GRID/x=LON/y=LAT/t=TIME hydegrid
+
+!! Read ascii data and save in NetCDF
+FILE/COLUMNS=4319/GRID=hydegrid/SKIP=6/VAR=crop_rev cropland$1AD.asc
+SAVE/CLOBBER/FILE=tmp_crop_$1.nc crop_rev
+
+CANCEL DATA/ALL
+CANCEL VAR/ALL
+
+FILE/COLUMNS=4319/GRID=hydegrid/SKIP=6/VAR=gras_rev grazing$1AD.asc
+SAVE/CLOBBER/FILE=tmp_gras_$1.nc gras_rev
+
+CANCEL DATA/ALL
+CANCEL VAR/ALL
+
+USE/ORDER=X-Y tmp_crop_$1.nc
+
+SET VARIABLE/BAD=-9999/TITLE=crop crop_rev 
+LET/TITLE="cropland area"/units="km/gridcell" crop=crop_rev
+
+SAVE/CLOBBER/FILE="raw/landuse_$1.nc" crop
+
+CANCEL DATA/ALL
+CANCEL VAR/ALL
+
+USE/ORDER=X-Y tmp_gras_$1.nc
+
+SET VARIABLE/BAD=-9999/TITLE=past gras_rev 
+LET/TITLE="pasture area"/units="km/gridcell" past=gras_rev
+
+SAVE/APPEND/FILE="raw/landuse_$1.nc" past

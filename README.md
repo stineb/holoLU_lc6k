@@ -1,0 +1,43 @@
+Steps to add another scenario (given original files in NetCDF at any resolution)
+1. source('prepare_harvest_holoLU2.R’) done für hyde32_upper
+2. source('regrid_landuse_holoLU2.R')
+3. source(‘regrid_shiftcult_holoLU2.R')
+4. source(‘remove_fopen_holoLU2.R')
+
+Preparation of harvest data (‘prepare_harvest_holoLU2.R'):
+* ‘extract_hydeslices_harvest.sh’ on Bern server: extract HYDE slices from 'harvest_hurtt_byarea_v2_historical_1500-2004_halfdeg.nc ‘ =>  harvest_hurtt_byarea_v2_halfdeg_hydeslices_tmp.nc
+* ‘prepare_harvest_holoLU2.R’: project backwards in time using cropland area evolution over time from HYDE final and KK10 for each continent separately => harvest_hurtt_byarea_v2_halfdeg_backby_hyde.nc harvest_hurtt_byarea_v2_halfdeg_backby_kk10.nc
+
+Preparation of land turnover data (‘prepare_perm_turnover_cropsuit_holoLU2.R'):
+* file ‘perm_holoLU.nc’:
+    * Before 1700 AD, permanent agriculture where O&H (from file 'popcat_olhick_cru_sherratt_59191.nc') suggest civilisations. 
+    * After 1700 AD, permanent agriculture where LUH ('shiftcult_map_halfdeg.cdf’) does not suggest shifting cultivation and cropland>0
+* file "crop_suit_holoLU2.nc”:
+    * in permanent agriculture areas: "suitable fraction" is cropland area scaled by the "fallow factor" to account for fallow-rotation.
+        * fallow factor: 3/2 before 1850, globally uniform, reducing to 1 by 1960.
+    * in non-permanent areas: suitable fraction taken from SAGE data
+* file "turnovertime_cropland_holoLU2.nc”:
+    * in permanent agriculture areas: turnover time tau = 3 / ff
+    * in non-permanent agriculture areas: tau = 4 yr
+
+Preparation of KK10 landuse data:
+* prepare_kk10.sh: extracted time slices using on Bern server. for each HYDE-year, extract from ‘ K11_30m_8k_merge.nc' => 'landuse_KK11_halfdeg_<YEAR>.nc'
+* download slices to my mac
+* prepare_fpast_fcrop.R: pasture fraction for all HYDE years => "fpast_STAGE1_hyde31_final_halfdeg.nc"
+* prepare_fpast.jnl: extension in space using Ferret => "fpast_STAGE2_hyde31_final_halfdeg.nc"
+* prepare_kk10.R: stack slices together, interpolate remaining slices, separate fcrop/fpast => "landuse_KK11_halfdeg_hydeslices.nc”
+
+Preparation of fopen file:
+* extracted variable fpc_grid from LPX output r0_holoLU2.cdf
+* downloaded this to my machine
+* ‘prepare_fopen.jnl’: average over years and sum over grasses => fopen_r0_holoLU2.nc
+
+Regridding all files:
+* regrid_landuse_holoLU2.R:
+    * regridding cropland/pasture files (landuse_hyde31_final_halfdeg.cdf, landuse_KK11_halfdeg_hydeslices.nc) from halfdeg to lpjgr => (landuse_hyde31_final_lpjgr.cdf, landuse_KK11_lpjgr.nc)
+    * regridding harvested area files (harvest_hurtt_byarea_v2_halfdeg_backby_hyde.nc,  harvest_hurtt_byarea_v2_halfdeg_backby_kk10.nc) => (harvest_hurtt_byarea_v2_lpjgr_backby_hyde.nc, harvest_hurtt_byarea_v2_lpjgr_backby_kk10.nc)
+* regridding files for defining permanen/non-permanent, shifting cultivation, land turnover time
+    * 1. regrid_suit_holoLU2.jnl: regrid SAGE suitable land fraction file to lpjgr
+    * 2. regrid_perm_holoLU2.jnl: regrid permanent/non-permanent info using Ferret’s nice transformation function @nrst
+    * 3. regrid_shiftcult_holoLU2.R: uses regridded permanent/non-permanent mask (perm_lpjgr_holoLU2.nc) and suitable fraction file (land_suit_sage_lpjgr.nc) to calculate “suitable fraction” and land turnover time. => shiftcultinfo_*_lpjgr_holoLU2.nc, inaccess_lpjgr_holoLU2.nc
+* remove_fopen_holoLU2.R: remove open vegetation fraction from pasture => landuse_hyde31_final_pastcorr_lpjgr.cdf
