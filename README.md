@@ -19,9 +19,11 @@ Four different time-varying input variables have to be provided, covering all ti
 1. Harvested area (gridcell fraction), defines the (forest) area that is cleared per year.
 2. Cropland area (gridcell fraction).
 3. Pasture area (gridcell fraction), defines only the pasture area of what would be forested otherwise (potential natural vegetation). 
-4. Cropland turnover rate (fraction/year), defines the extent of cropland abandoned and re-claimed from non-agricultural land each year.
+4. Extent of permanent agriculture (logical), defines wether croplands in the respective gridcell is under permanent management or under a shifting cultivation regime.
+
+<!-- 4. Cropland turnover rate (fraction/year), defines the extent of cropland abandoned and re-claimed from non-agricultural land each year.
 5. crop_suit ???
-6. Extent of permanent agriculture (logical), defines wether croplands in the respective gridcell is under permanent management or under a shifting cultivation regime.
+ -->
 
 One additional, temporally constant input variables, also given as maps, has to be provided:
 
@@ -37,8 +39,8 @@ Fortran code used within LPX to read and interpret the land use forcing is given
 inaccess(jpngr)   = max( 0.d0, land_fraction(jpngr) - fsuit )
 ```
 
-2. Define wether land is under permanent of non-permanent (shifting cultivation-type) agriculture, based on the file `perm_lpjgr_holoLU2.nc`. Under non-permanent agriculture, a constant land turnover rate of 0.25 is assumed (a quarter of cropland area abandoned each year, variable `ltor`), and the fraction of land suitable for cropland cultivation (`cropsuit`) is set to be equal to the (temporally constant) accessible area fraction. Under permanent agriculture, a fallow rotation regime is assumed, corresponding to a three-field rotation for all years before 1850 CE, gradually shifting to no fallow for all years after 1960 CE. This is implemented using the variable `fallow_factor`. In this case (pre-1850), the fraction of land suitable (used) for cropland cultivation is set to 1.5 times (`3.0d0/2.0d0`) the cropland area (`lu_area(lucrop,jpngr)`). Note the difference: The prescribed cropland area (`lu_area(lucrop,jpngr)`) is the area *currently* (in a given year) under cultivation and fallow areas don't count toward that value. This implies that an additional 50% is fallow at each given point in time. The land turnover rate (`ltor`) is `fallow_factor / 3.d0`. Hence, for pre-1850 years, 50% of the land is "abandoned" (converted from actually cultivated cropland to fallow, which is treated as secondary land in LPX).  
-```
+2. Define wether land is under permanent of non-permanent (shifting cultivation-type) agriculture, based on the file `perm_lpjgr_holoLU2.nc`. Under non-permanent agriculture, a constant land turnover rate of 0.25 is assumed (a quarter of cropland area abandoned each year, variable `ltor`), and the fraction of land suitable for cropland cultivation (`cropsuit`) is set to be equal to the (temporally constant) accessible area fraction. Under permanent agriculture, a fallow rotation regime is assumed, corresponding to a three-field rotation for all years before 1850 CE, gradually shifting to no fallow for all years after 1960 CE. This is implemented using the variable `fallow_factor`. In this case (pre-1850), the fraction of land suitable (used) for cropland cultivation is set to 1.5 times (`3.0d0/2.0d0`) the cropland area (`lu_area(lucrop,jpngr)`). Note the difference: The prescribed cropland area (`lu_area(lucrop,jpngr)`) is the area *currently* (in a given year) under cultivation and fallow areas don't count toward that value. This implies that an additional 50% is fallow at each given point in time. The land turnover rate (`ltor`) is `fallow_factor / 3.d0`. Hence, for pre-1850 years, 50% of the land is "abandoned", i.e. converted from actually cultivated cropland to fallow, which is treated as secondary land in LPX.  
+```Fortran
 !     -------------------------------------------------------------------------
 !     CROPSUIT and LAND TURNOVER RATE
 !     Land fraction suitable from cropland agriculture. 
@@ -64,6 +66,57 @@ inaccess(jpngr)   = max( 0.d0, land_fraction(jpngr) - fsuit )
 
 ```
 
+3. The land use transition matrix is constructed. This contains $i \times j$ values, where $i$ and $j$ are the land use categories (primary, secondary, cropland, pasture), and the martrix $M_{i,j}$ (variable `DF_tr` below) defines the gridcell area fraction transiting from land use category $i$ to $j$. 
+```Fortran
+!     ADD LAND TURNOVER (shifting cultivation)
+!     -------------------------------------------------------------------------
+          
+!     CLAIM CROPLAND/PASTURE
+!     only cropland turnover, priority for primary land,
+!     accessible primary land constrained.
+          lu=lucrop
+          
+!     first priority, claim from lunat
+          req=min(
+     $         lu_area_tr(lu,jpngr)*ltor(jpngr),
+     $         luold(lu)*ltor(jpngr)                     !required for conversion to crop
+     $         )
+          avl=max(
+     $         max( 0.d0, luold(lunat)-inaccess(jpngr)),
+     $         0.d0
+     $         )
+          con=min(req,avl)                                  !actually converted primary land
+          DF_tr(lunat,lu,jpngr)=DF_tr(lunat,lu,jpngr)+con
+          req=req-con
+          luold(lunat)=luold(lunat)-con
+          lu_area_tr(lunat,jpngr)=lu_area_tr(lunat,jpngr)-con
+          lu_area_tr(lu,jpngr)=lu_area_tr(lu,jpngr)+con
+          if (req.gt.0.0d0) then
+!     second priority, claim from lusecd
+            avl=luold(lusecd)
+            con=min(req,avl)
+            DF_tr(lusecd,lu,jpngr)=DF_tr(lusecd,lu,jpngr)+con
+            req=req-con
+            luold(lusecd)=luold(lusecd)-con
+            lu_area_tr(lusecd,jpngr)=lu_area_tr(lusecd,jpngr)-con
+            lu_area_tr(lu,jpngr)=lu_area_tr(lu,jpngr)+con
+            if (req.gt.0.0d0) then
+!     not enough primary and secondary land available to satisfy cropland/pasture abandonment
+              uns=req                                       !un-satisfied requirement
+            endif
+          endif
+            
+            
+!     ABANDON CROPLAND (limited by available primary and secondary)
+!     crop/pasture -> secondary (all goes into secondary)
+          lu=lucrop
+          DF_tr(lu,lusecd,jpngr)=sum(DF_tr(:,lu,jpngr))
+          luold(lu)=luold(lu)-DF_tr(lu,lusecd,jpngr)
+          lu_area_tr(lu,jpngr)=lu_area_tr(lu,jpngr)-DF_tr(lu,lusecd,jpngr)
+          lu_area_tr(lusecd,jpngr)=lu_area_tr(lusecd,jpngr)+DF_tr(lu,lusecd,jpngr)
+          
+        endif       
+```
 
 ## Preparing the land use forcing for BGC simulations
 
