@@ -16,10 +16,10 @@ This is a description of how the land use forcing was implemented for simulation
 
 Four different time-varying input variables have to be provided, covering all time steps (12 ka BP - present) and are given as maps (gridded field for longitude and latitude). All preparation steps are done at a spatial resolution of 1 degree.
 
-1. Harvested area (gridcell fraction), defines the (forest) area that is cleared per year.
-2. Cropland area (gridcell fraction).
-3. Pasture area (gridcell fraction), defines only the pasture area of what would be forested otherwise (potential natural vegetation). 
-4. Extent of permanent agriculture (logical), defines wether croplands in the respective gridcell is under permanent management or under a shifting cultivation regime.
+1. Harvested area (gridcell fraction), defines the (forest) area that is cleared per year. Variable `aharv` in file `data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc`
+2. Cropland area (gridcell fraction). Variable `crop` in file `landuse_hyde32_baseline_pastcorr_lpjgr.nc`
+3. Pasture area (gridcell fraction), defines only the pasture area of what would be forested otherwise (potential natural vegetation). Variable `past` in file `landuse_hyde32_baseline_pastcorr_lpjgr.nc`
+4. Extent of permanent agriculture (logical), defines wether croplands in the respective gridcell is under permanent management or under a shifting cultivation regime. Variable `PERM` in file `perm_lpjgr_holoLU2.nc`
 
 <!-- 4. Cropland turnover rate (fraction/year), defines the extent of cropland abandoned and re-claimed from non-agricultural land each year.
 5. crop_suit ???
