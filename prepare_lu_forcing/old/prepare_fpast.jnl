@@ -1,0 +1,7 @@
+set memory/size=200
+use "fpast_STAGE1_hyde31_final_halfdeg.nc"
+
+let fpast_filled=fpast[x=@fln,y=@fln]
+
+save/clobber/file="fpast_STAGE2_hyde31_final_halfdeg.nc" fpast_filled
+
