@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -33,10 +33,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -92,8 +94,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -109,7 +117,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -129,6 +136,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -150,18 +194,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -320,42 +423,49 @@ div.tocify {
 <h2>LULC forcing</h2>
 <p>Four different time-varying input variables have to be provided, covering all time steps and given as maps (gridded fields for longitude and latitude).</p>
 <ol style="list-style-type: decimal">
-<li>Cropland area (gridcell fraction).</li>
-<li>Pasture area (gridcell fraction),</li>
-<li>Agricultural system (categorical),</li>
-<li>Harvested area (gridcell fraction), defines the (forest) area that is cleared per year.</li>
+<li>Cropland area</li>
+<li>Pasture area</li>
+<li>Urban area</li>
+<li>Harvested area</li>
+<li>Agricultural system</li>
 </ol>
 <p>One additional, temporally constant input variable, also given s map, has to be provided:</p>
-<ol start="5" style="list-style-type: decimal">
-<li>Land suitability (gridcell fraction), defines the fraction of the gridcell that is suitable for agriculture. Remainder remains primary land. This is used to constrain the maximum extent of secondary land.</li>
+<ol start="6" style="list-style-type: decimal">
+<li>Land suitability</li>
 </ol>
 <div id="cropland-area" class="section level3">
 <h3>Cropland area</h3>
-<p>(Gridcell area fraction)</p>
+<p><em>Gridcell area fraction</em>. Specifies the area used for crop cultivation at a given point in time. This excludes fallow fields.</p>
 </div>
 <div id="pasture-area" class="section level3">
 <h3>Pasture area</h3>
-<p>(Gridcell area fraction)</p>
-<p>This defines the extent of land that is regularly grazed. Note that naturally open vegetation is assumed to be used before any forest is cleared to satisfy expanding pasture areas.</p>
+<p><em>Gridcell area fraction</em>. This defines the extent of land that is regularly grazed. Note that naturally open vegetation is assumed to be used before any forest is cleared to satisfy expanding pasture areas. If the balance between open land and closed forests is dynamically simulated by the model, a reduced pasture extent that fully comes at the expense of the simulated potential natural vegetation has to be derived offline beforehand. On land used for pasture, aboveground biomass is to be removed periodically and should not be added to litter pools (but respective C to be respired directly as CO2). No land turnover is simulated for pasture. In areas of mobile or transhumant pastoralism, the annual aboveground biomass removal fraction is to be set to a lower value.</p>
+</div>
+<div id="urban-area" class="section level3">
+<h3>Urban area</h3>
+<p><em>Gridcell area fraction</em>. This defines the extent of built-up land, where no vegetation is allowed to grow. Soil C stocks are not to be modiefied “artificially” upon expansion of urban areas, but receive no further litter C inputs and thus decay with time.</p>
+</div>
+<div id="harvested-area" class="section level3">
+<h3>Harvested area</h3>
+<p><em>gridcell fraction</em> Defines the (forest) area that is cleared per year to satisfy demand for wood (construction, smeltering).</p>
 </div>
 <div id="agricultural-system" class="section level3">
 <h3>Agricultural system</h3>
-<p>(Categorical)</p>
-<p>This is to define Level-2 land use classes after Morrison et al. (2018) (see Figure below) and is to be used as an identifiyer to define a set of land use parameters that characterise typical practices for different agricultural systems. This classification should be “translatable” into information required for the implementation of land use in BGC and ESM models. Required information is:</p>
+<p><em>Categorical</em>. This is to define Level-2 land use classes after Morrison et al. (2018) (see Figure below) and is to be used as an identifiyer to define a set of land use parameters that characterise typical practices for different agricultural systems. This classification should be translatable into information required for the implementation of land use in BGC and ESM models. Land use parameters required by models are:</p>
 <ul>
 <li>Whether croplands are under permanent cultivation (including short rotation fallow, where the ratio of cultivated to fallow land is greater than 1), or under a slash-and-burn type land use.</li>
 <li>Land turnover rate under slash-and-burn cultivation, defined as the fraction of cropland abandoned each year. Example: If fields are cultivated, e.g., for 5 years and then completely abandoned, the abandonment rate would be 20%.</li>
 <li>Whether or not croplands are irrigated (alleviating all soil moisture limitation in BGC models, and setting annual precipitation on respective land to potential evapotranspiration minus precipitation (PET-P) in ESMs.)</li>
 <li>Whether or not litter inputs are reduced (crop harvesting and off-site decomposition of residues, absence of mulching) and/or soil organic matter decomposition is accelerated by cultivation (e.g., tillage). This information is important for simulating soil C stocks and their responses to land use change.</li>
 </ul>
-<p>A lookup table can then be used to associate the Level-2 classification with land use parameters for its implementation in models:</p>
-<table>
+<p>A lookup table can then be used to associate the Level-2 classification with required land use parameters for its implementation in models:</p>
+<table style="width:100%;">
 <colgroup>
-<col width="23%" />
-<col width="22%" />
-<col width="21%" />
-<col width="18%" />
-<col width="14%" />
+<col width="30%" />
+<col width="20%" />
+<col width="17%" />
+<col width="17%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -375,22 +485,86 @@ div.tocify {
 <td>???</td>
 </tr>
 <tr class="even">
-<td>Swidden / shifting cultivation</td>
+<td>Swidden/shifting cultivation</td>
 <td><code>FALSE</code></td>
 <td>20% (example)</td>
 <td><code>FALSE</code></td>
 <td><code>TRUE</code></td>
 </tr>
+<tr class="odd">
+<td>Industrial monocrop/plantation</td>
+<td><code>TRUE</code></td>
+<td>0%</td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td>Flooded field farming</td>
+<td><code>TRUE</code></td>
+<td>0%</td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td>Non-irr. annual cropping w/ animals</td>
+<td><code>TRUE</code></td>
+<td>0%</td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td>Non-irr. annual cropping w/o animals</td>
+<td><code>TRUE</code></td>
+<td>0%</td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td>Irr. annual cropping w/ animals</td>
+<td><code>TRUE</code></td>
+<td>0%</td>
+<td><code>TRUE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td>Irr. annual cropping w/o animals</td>
+<td><code>TRUE</code></td>
+<td>0%</td>
+<td><code>TRUE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td>Pastoralism, sedentary</td>
+<td><code>TRUE</code></td>
+<td>NA</td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="even">
+<td>Pastoralism, mobile/transhumant</td>
+<td><code>FALSE</code></td>
+<td>NA</td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+<tr class="odd">
+<td>Urban</td>
+<td><code>TRUE</code></td>
+<td>0%</td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
 </tbody>
 </table>
-<p>etc.</p>
+<p>Note that ‘urban’ is a Level-1 class, but no further distinction is made for applications in models. Other inormation from the Level-1/Level-2 land use classification are not relevant as model forcing.</p>
 <div class="figure">
 <img src="img/lu_classes_lc6k.png" alt="The LandCover6k land-use classification after Morrison et al., 2018." />
 <p class="caption">The LandCover6k land-use classification after Morrison et al., 2018.</p>
 </div>
 </div>
-<div id="harvested-area" class="section level3">
-<h3>Harvested area</h3>
+<div id="land-suitability" class="section level3">
+<h3>Land suitability</h3>
+<p><em>Gridcell fraction</em> Defines the fraction of the gridcell that is suitable for agriculture. The remainder remains primary land throughout the entire simulation. This is used to constrain the maximum extent of secondary land.</p>
 </div>
 </div>
 </div>
