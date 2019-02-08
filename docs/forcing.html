@@ -348,6 +348,42 @@ div.tocify {
 <li>Whether or not croplands are irrigated (alleviating all soil moisture limitation in BGC models, and setting annual precipitation on respective land to potential evapotranspiration minus precipitation (PET-P) in ESMs.)</li>
 <li>Whether or not litter inputs are reduced (crop harvesting and off-site decomposition of residues, absence of mulching) and/or soil organic matter decomposition is accelerated by cultivation (e.g., tillage). This information is important for simulating soil C stocks and their responses to land use change.</li>
 </ul>
+<p>A lookup table can then be used to associate the Level-2 classification with land use parameters for its implementation in models:</p>
+<table>
+<colgroup>
+<col width="23%" />
+<col width="22%" />
+<col width="21%" />
+<col width="18%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Level 2 class</th>
+<th>Permanent cultivation</th>
+<th>Land turnover rate</th>
+<th>Irrigated croplands</th>
+<th>Reduced soil C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tropical intensive agroforestry</td>
+<td><code>TRUE</code></td>
+<td>NA</td>
+<td><code>FALSE</code></td>
+<td>???</td>
+</tr>
+<tr class="even">
+<td>Swidden / shifting cultivation</td>
+<td><code>FALSE</code></td>
+<td>20% (example)</td>
+<td><code>FALSE</code></td>
+<td><code>TRUE</code></td>
+</tr>
+</tbody>
+</table>
+<p>etc.</p>
 <div class="figure">
 <img src="img/lu_classes_lc6k.png" alt="The LandCover6k land-use classification after Morrison et al., 2018." />
 <p class="caption">The LandCover6k land-use classification after Morrison et al., 2018.</p>

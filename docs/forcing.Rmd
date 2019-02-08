@@ -43,6 +43,15 @@ This is to define Level-2 land use classes after Morrison et al. (2018) (see Fig
 - Whether or not croplands are irrigated (alleviating all soil moisture limitation in BGC models, and setting annual precipitation on respective land to potential evapotranspiration minus precipitation (PET-P) in ESMs.)
 - Whether or not litter inputs are reduced (crop harvesting and off-site decomposition of residues, absence of mulching) and/or soil organic matter decomposition is accelerated by cultivation (e.g., tillage). This information is important for simulating soil C stocks and their responses to land use change.
 
+A lookup table can then be used to associate the Level-2 classification with land use parameters for its implementation in models:
+
+| Level 2 class                       | Permanent cultivation             | Land turnover rate              | Irrigated croplands        | Reduced soil C       |
+|-------------------------------------|-----------------------------------|---------------------------------|----------------------------|----------------------|
+| Tropical intensive agroforestry     | `TRUE`                            | NA                              | `FALSE`                    | ???                  |
+| Swidden / shifting cultivation      | `FALSE`                           | 20% (example)                   | `FALSE`                    | `TRUE`               |
+
+etc.
+
 ![The LandCover6k land-use classification after Morrison et al., 2018.](img/lu_classes_lc6k.png)
 
 ### Harvested area
