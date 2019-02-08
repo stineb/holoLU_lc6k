@@ -1,0 +1,39 @@
+---
+title: "LULC forcing preparation"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+## Summary
+
+This is a description of how the land use forcing was implemented for simulations presented in (Stocker et al., 2017)[https://www.pnas.org/content/114/7/1492]. This may serve as a guide for implementations in other models targeted for the Landcover6K simulations.
+
+Four different time-varying input variables have to be provided, covering all time steps (12 ka BP - present) and are given as maps (gridded field for longitude and latitude). All preparation steps are done at a spatial resolution of 1 degree.
+
+1. Cropland area (gridcell fraction). Variable `crop` in file `data/landuse_hyde32_baseline_pastcorr_lpjgr.nc`
+2. Pasture area (gridcell fraction), defines only the pasture area of what would be forested otherwise (potential natural vegetation). Variable `past` in file `data/landuse_hyde32_baseline_pastcorr_lpjgr.nc`
+3. Extent of permanent agriculture (logical), defines wether croplands in the respective gridcell is under permanent management or under a shifting cultivation regime. Variable `PERM` in file `data/perm_lpjgr_holoLU2.nc`
+4. Harvested area (gridcell fraction), defines the (forest) area that is cleared per year. Variable `aharv` in file `data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc`
+
+
+This describes how the LPX land use forcing files are created - from original HYDE and KK10 files to final forcing files.
+
+In summary, the following steps have to be repeated for each added scenario (given original files in NetCDF at any resolution)
+
+1. `source('prepare_harvest_holoLU2.R’)` done only for `hyde32_upper`
+2. `source('regrid_landuse_holoLU2.R')`
+3. `source(‘regrid_shiftcult_holoLU2.R')`
+4. `source(‘remove_fopen_holoLU2.R')` 
+To be completed: I will add a brief description of what went into creating the forcing files and how exactly they were created.
+
+
+<!-- 4. Cropland turnover rate (fraction/year), defines the extent of cropland abandoned and re-claimed from non-agricultural land each year.
+5. crop_suit ???
+ -->
+
+One additional, temporally constant input variables, also given as maps, has to be provided:
+
+1. Land suitability (gridcell fraction), defines the fraction of the gridcell that is suitable for agriculture. Remainder remains primary land. This is used to constrain the maximum extent of secondary land. Provided by variable `SUIT` in file `land_suit_sage_lpjgr.nc`.

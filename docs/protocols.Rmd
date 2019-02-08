@@ -1,0 +1,21 @@
+---
+title: "Simulation protocols"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+## BGC simulations
+
+| Name              | Net LULC    | Wood harvesting   | Shifting cultivation  | Varying climate and CO2   |
+|-------------------|-------------|-------------------|-----------------------|---------------------------|
+| `bgc_lu00_clim0`  | No          | No                | No                    | No                        |
+| `bgc_lu10_clim0`  | Yes         | No                | No                    | No                        |
+| `bgc_lu11_clim0`  | Yes         | Yes               | No                    | No                        |
+| `bgc_lu12_clim0`  | Yes         | Yes               | Yes                   | No                        |
+| `bgc_lu00_clim1`  | No          | No                | No                    | Yes                       |
+
+
+## ESM simulations

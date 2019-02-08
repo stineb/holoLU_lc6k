@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>PAGES Landcover6K Protocols</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="site_libs/font-awesome-4.5.0/css/font-awesome.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo" style="width: 120px;" src="img/landcover6k_logo.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="protocols.html">Protocols</a>
+</li>
+<li>
+  <a href="forcing.html">Forcing</a>
+</li>
+<li>
+  <a href="outputs.html">Outputs</a>
+</li>
+<li>
+  <a href="implementation.html">Implementation</a>
+</li>
+<li>
+  <a href="lu_forcing_prep.html">LULC forcing preparation</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stineb/holoLU_lc6k">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">PAGES Landcover6K Protocols</h1>
+
+</div>
+
+
+<!-- ![](img/landcover6k_logo.png) -->
+<p>This website contains protocols for the following purposes:</p>
+<ul>
+<li>Defining simulation protocols</li>
+<li>Defining implementations of the land use forcing</li>
+<li>Documenting the preparation of land use model forcing files</li>
+<li>Analysing model outputs</li>
+</ul>
+<p>Codes are available on <a href="https://github.com/stineb/holoLU_lc6k">github</a>.</p>
+<!-- ### Harvested area
+
+Preparation of harvest data (‘prepare_harvest_holoLU2.R'):
+* ‘extract_hydeslices_harvest.sh’ on Bern server: extract HYDE slices from 'harvest_hurtt_byarea_v2_historical_1500-2004_halfdeg.nc ‘ =>  harvest_hurtt_byarea_v2_halfdeg_hydeslices_tmp.nc
+* ‘prepare_harvest_holoLU2.R’: project backwards in time using cropland area evolution over time from HYDE final and KK10 for each continent separately => harvest_hurtt_byarea_v2_halfdeg_backby_hyde.nc harvest_hurtt_byarea_v2_halfdeg_backby_kk10.nc
+
+Preparation of land turnover data (‘prepare_perm_turnover_cropsuit_holoLU2.R'):
+* file ‘perm_holoLU.nc’:
+    * Before 1700 AD, permanent agriculture where O&H (from file 'popcat_olhick_cru_sherratt_59191.nc') suggest civilisations. 
+    * After 1700 AD, permanent agriculture where LUH ('shiftcult_map_halfdeg.cdf’) does not suggest shifting cultivation and cropland>0
+* file "crop_suit_holoLU2.nc”:
+    * in permanent agriculture areas: "suitable fraction" is cropland area scaled by the "fallow factor" to account for fallow-rotation.
+        * fallow factor: 3/2 before 1850, globally uniform, reducing to 1 by 1960.
+    * in non-permanent areas: suitable fraction taken from SAGE data
+* file "turnovertime_cropland_holoLU2.nc”:
+    * in permanent agriculture areas: turnover time tau = 3 / ff
+    * in non-permanent agriculture areas: tau = 4 yr
+
+Preparation of KK10 landuse data:
+* prepare_kk10.sh: extracted time slices using on Bern server. for each HYDE-year, extract from ‘ K11_30m_8k_merge.nc' => 'landuse_KK11_halfdeg_<YEAR>.nc'
+* download slices to my mac
+* prepare_fpast_fcrop.R: pasture fraction for all HYDE years => "fpast_STAGE1_hyde31_final_halfdeg.nc"
+* prepare_fpast.jnl: extension in space using Ferret => "fpast_STAGE2_hyde31_final_halfdeg.nc"
+* prepare_kk10.R: stack slices together, interpolate remaining slices, separate fcrop/fpast => "landuse_KK11_halfdeg_hydeslices.nc”
+
+Preparation of fopen file:
+* extracted variable fpc_grid from LPX output r0_holoLU2.cdf
+* downloaded this to my machine
+* ‘prepare_fopen.jnl’: average over years and sum over grasses => fopen_r0_holoLU2.nc
+
+Regridding all files:
+* regrid_landuse_holoLU2.R:
+    * regridding cropland/pasture files (landuse_hyde31_final_halfdeg.cdf, landuse_KK11_halfdeg_hydeslices.nc) from halfdeg to lpjgr => (landuse_hyde31_final_lpjgr.cdf, landuse_KK11_lpjgr.nc)
+    * regridding harvested area files (harvest_hurtt_byarea_v2_halfdeg_backby_hyde.nc,  harvest_hurtt_byarea_v2_halfdeg_backby_kk10.nc) => (harvest_hurtt_byarea_v2_lpjgr_backby_hyde.nc, harvest_hurtt_byarea_v2_lpjgr_backby_kk10.nc)
+* regridding files for defining permanen/non-permanent, shifting cultivation, land turnover time
+    * 1. regrid_suit_holoLU2.jnl: regrid SAGE suitable land fraction file to lpjgr
+    * 2. regrid_perm_holoLU2.jnl: regrid permanent/non-permanent info using Ferret’s nice transformation function @nrst
+    * 3. regrid_shiftcult_holoLU2.R: uses regridded permanent/non-permanent mask (perm_lpjgr_holoLU2.nc) and suitable fraction file (land_suit_sage_lpjgr.nc) to calculate “suitable fraction” and land turnover time. => shiftcultinfo_*_lpjgr_holoLU2.nc, inaccess_lpjgr_holoLU2.nc
+* remove_fopen_holoLU2.R: remove open vegetation fraction from pasture => landuse_hyde31_final_pastcorr_lpjgr.cdf -->
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

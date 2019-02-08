@@ -1,0 +1,37 @@
+---
+title: "Outputs"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+## BGC simulations
+
+Simulations are transient, covering years 10,000 BC to 2010 CE. 
+
+- File format: NetCDF, with longitude and latitude dimensions in degrees, and a time dimension with defined calendar.
+- Temporal resolution: 10 years, e.g., state at the end of year 1000, 1010, 1020, ... 
+- Spatial resolution: any
+- Values per gridcell should represent the sum over all vegetation types (PFTs) and the mean over multiple sub-gridscale land classes (tiles), weighted by respective area fractions. Hence, no additional dimensions should be present other than longitude, latitude and time.
+- C pools should sum up as `totc = vegc + soilc + prodc`.
+- Land cover fractions should sum up as `fland = fcrop + fpast + fgrass + ftree`.
+
+Required output variables are:
+
+| Variable     | Standard name   | Units                  | Remarx   |
+|--------------|-----------------|------------------------|----------|
+| Total C      | `totc`          | g C m$^{-2}$           | This should include all C stored per gridcell, including product pools. Its change between time steps should be what the atmosphere "sees". |
+| Vegetation C | `vegc`          | g C m$^{-2}$           | Including all living plant biomass pools. |
+| Soil C       | `soilc`         | g C m$^{-2}$           | Including all soil organic matter **and litter** pools. |
+| Product C    | `prodc`         | g C m$^{-2}$           | C in product pools. |
+| LAI          | `lai`           | m m$^{-1}$             | Leaf area index, calculated as total foliage area per unit ground area. |
+| NPP          | `npp`           | g C m$^{-2}$ yr$^{-1}$ | Net primary production, mean over 10 y period. |
+| Land area    | `fland`         | 1                      | Land area fraction is used if not all of the gridcell area is land |
+| Cropland area| `fcrop`         | 1                      | Land area fraction currently under cultivation for crops. This excludes fallow areas. |
+| Pasture  area| `fpast`         | 1                      | Land area fraction under use for pasture, including extensive grazing, i.e., where a certain fraction of aboveground biomass is removed by grazers. |
+| Grass cover  | `fgrass`        | 1                      | Land area fraction covered by natural grasslands (excluding croplands and pastures) |
+| Tree cover   | `ftree`         | 1                      | Land area fraction covered forest at all age stages, including young regrowth after harvesting or cropland abandonment. |
+
+## ESM simulations

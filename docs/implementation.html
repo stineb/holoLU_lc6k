@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Implementation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="site_libs/font-awesome-4.5.0/css/font-awesome.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo" style="width: 120px;" src="img/landcover6k_logo.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="protocols.html">Protocols</a>
+</li>
+<li>
+  <a href="forcing.html">Forcing</a>
+</li>
+<li>
+  <a href="outputs.html">Outputs</a>
+</li>
+<li>
+  <a href="implementation.html">Implementation</a>
+</li>
+<li>
+  <a href="lu_forcing_prep.html">LULC forcing preparation</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stineb/holoLU_lc6k">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Implementation</h1>
+
+</div>
+
+
+<div id="procedure-in-lpx-as-an-example" class="section level2">
+<h2>Procedure in LPX as an example</h2>
+<p>Fortran code used within LPX to read and interpret the land use forcing is given in the file <code>read_landuse_map.F</code>. The following steps (code extracted fromt that file) are crucial:</p>
+<ol style="list-style-type: decimal">
+<li><p>Define the gridcell area fraction that remains inaccessible and therefore primary land (not affected by land conversion), based on the file <code>land_suit_sage_lpjgr.nc</code>:</p>
+<pre class="fortran"><code>inaccess(jpngr)   = max( 0.d0, land_fraction(jpngr) - fsuit )</code></pre></li>
+<li><p>Define wether land is under permanent of non-permanent (shifting cultivation-type) agriculture, based on the file <code>perm_lpjgr_holoLU2.nc</code>. Under non-permanent agriculture, a constant land turnover rate of 0.25 is assumed (a quarter of cropland area abandoned each year, variable <code>ltor</code>), and the fraction of land suitable for cropland cultivation (<code>cropsuit</code>) is set to be equal to the (temporally constant) accessible area fraction. Under permanent agriculture, a fallow rotation regime is assumed, corresponding to a three-field rotation for all years before 1850 CE, gradually shifting to no fallow for all years after 1960 CE. This is implemented using the variable <code>fallow_factor</code>. In this case (pre-1850), the fraction of land suitable (used) for cropland cultivation is set to 1.5 times (<code>3.0d0/2.0d0</code>) the cropland area (<code>lu_area(lucrop,jpngr)</code>). Note the difference: The prescribed cropland area (<code>lu_area(lucrop,jpngr)</code>) is the area <em>currently</em> (in a given year) under cultivation and fallow areas don’t count toward that value. This implies that an additional 50% is fallow at each given point in time. The land turnover rate (<code>ltor</code>) is <code>fallow_factor / 3.d0</code>. Hence, for pre-1850 years, 50% of the land is “abandoned”, i.e. converted from actually cultivated cropland to fallow, which is treated as secondary land in LPX.</p></li>
+</ol>
+<pre class="fortran"><code>!     -------------------------------------------------------------------------
+!     CROPSUIT and LAND TURNOVER RATE
+!     Land fraction suitable from cropland agriculture. 
+!     -------------------------------------------------------------------------
+          fallow_factor = max(
+     $         1.0d0,
+     $         min(
+     $         3.0d0/2.0d0,
+     $         3.0d0/2.0d0 - 0.5d0/110.0d0 * (realyear-1850.0d0)
+     $         ) )
+          
+          if (shifting_cultivation(jpngr)) then
+            cropsuit(jpngr) = accessible(jpngr)
+            ltor(jpngr)     = 0.25d0
+          else
+            cropsuit(jpngr) = max( lu_area(lucrop,jpngr),
+     $           min(
+     $           accessible(jpngr),
+     $           fallow_factor*lu_area(lucrop,jpngr)
+     $           ))
+            ltor(jpngr)    = fallow_factor / 3.d0
+          endif
+</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Only relevant for model developers</strong> The land use transition matrix is constructed. This contains <span class="math inline">\(i \times j\)</span> values, where <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are the land use categories (primary, secondary, cropland, pasture), and the martrix <span class="math inline">\(M_{i,j}\)</span> (variable <code>DF_tr</code> below) defines the gridcell area fraction transiting from land use category <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span>.</li>
+</ol>
+<pre class="fortran"><code>!     ADD LAND TURNOVER (shifting cultivation)
+!     -------------------------------------------------------------------------
+          
+!     CLAIM CROPLAND/PASTURE
+!     only cropland turnover, priority for primary land,
+!     accessible primary land constrained.
+          lu=lucrop
+          
+!     first priority, claim from lunat
+          req=min(
+     $         lu_area_tr(lu,jpngr)*ltor(jpngr),
+     $         luold(lu)*ltor(jpngr)                     !required for conversion to crop
+     $         )
+          avl=max(
+     $         max( 0.d0, luold(lunat)-inaccess(jpngr)),
+     $         0.d0
+     $         )
+          con=min(req,avl)                                  !actually converted primary land
+          DF_tr(lunat,lu,jpngr)=DF_tr(lunat,lu,jpngr)+con
+          req=req-con
+          luold(lunat)=luold(lunat)-con
+          lu_area_tr(lunat,jpngr)=lu_area_tr(lunat,jpngr)-con
+          lu_area_tr(lu,jpngr)=lu_area_tr(lu,jpngr)+con
+          if (req.gt.0.0d0) then
+!     second priority, claim from lusecd
+            avl=luold(lusecd)
+            con=min(req,avl)
+            DF_tr(lusecd,lu,jpngr)=DF_tr(lusecd,lu,jpngr)+con
+            req=req-con
+            luold(lusecd)=luold(lusecd)-con
+            lu_area_tr(lusecd,jpngr)=lu_area_tr(lusecd,jpngr)-con
+            lu_area_tr(lu,jpngr)=lu_area_tr(lu,jpngr)+con
+            if (req.gt.0.0d0) then
+!     not enough primary and secondary land available to satisfy cropland/pasture abandonment
+              uns=req                                       !un-satisfied requirement
+            endif
+          endif
+            
+            
+!     ABANDON CROPLAND (limited by available primary and secondary)
+!     crop/pasture -&gt; secondary (all goes into secondary)
+          lu=lucrop
+          DF_tr(lu,lusecd,jpngr)=sum(DF_tr(:,lu,jpngr))
+          luold(lu)=luold(lu)-DF_tr(lu,lusecd,jpngr)
+          lu_area_tr(lu,jpngr)=lu_area_tr(lu,jpngr)-DF_tr(lu,lusecd,jpngr)
+          lu_area_tr(lusecd,jpngr)=lu_area_tr(lusecd,jpngr)+DF_tr(lu,lusecd,jpngr)
+          
+        endif       </code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Only relevant for model developers</strong> Add harvested area to the transition matrix. To be completed.</li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

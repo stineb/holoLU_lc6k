@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Outputs</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="site_libs/font-awesome-4.5.0/css/font-awesome.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img id="logo" style="width: 120px;" src="img/landcover6k_logo.png" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="protocols.html">Protocols</a>
+</li>
+<li>
+  <a href="forcing.html">Forcing</a>
+</li>
+<li>
+  <a href="outputs.html">Outputs</a>
+</li>
+<li>
+  <a href="implementation.html">Implementation</a>
+</li>
+<li>
+  <a href="lu_forcing_prep.html">LULC forcing preparation</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/stineb/holoLU_lc6k">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Outputs</h1>
+
+</div>
+
+
+<div id="bgc-simulations" class="section level2">
+<h2>BGC simulations</h2>
+<p>Simulations are transient, covering years 10,000 BC to 2010 CE.</p>
+<ul>
+<li>File format: NetCDF, with longitude and latitude dimensions in degrees, and a time dimension with defined calendar.</li>
+<li>Temporal resolution: 10 years, e.g., state at the end of year 1000, 1010, 1020, …</li>
+<li>Spatial resolution: any</li>
+<li>Values per gridcell should represent the sum over all vegetation types (PFTs) and the mean over multiple sub-gridscale land classes (tiles), weighted by respective area fractions. Hence, no additional dimensions should be present other than longitude, latitude and time.</li>
+<li>C pools should sum up as <code>totc = vegc + soilc + prodc</code>.</li>
+<li>Land cover fractions should sum up as <code>fland = fcrop + fpast + fgrass + ftree</code>.</li>
+</ul>
+<p>Required output variables are:</p>
+<table style="width:96%;">
+<colgroup>
+<col width="20%" />
+<col width="25%" />
+<col width="34%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Standard name</th>
+<th>Units</th>
+<th>Remarx</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Total C</td>
+<td><code>totc</code></td>
+<td>g C m<span class="math inline">\(^{-2}\)</span></td>
+<td>This should include all C stored per gridcell, including product pools. Its change between time steps should be what the atmosphere “sees”.</td>
+</tr>
+<tr class="even">
+<td>Vegetation C</td>
+<td><code>vegc</code></td>
+<td>g C m<span class="math inline">\(^{-2}\)</span></td>
+<td>Including all living plant biomass pools.</td>
+</tr>
+<tr class="odd">
+<td>Soil C</td>
+<td><code>soilc</code></td>
+<td>g C m<span class="math inline">\(^{-2}\)</span></td>
+<td>Including all soil organic matter <strong>and litter</strong> pools.</td>
+</tr>
+<tr class="even">
+<td>Product C</td>
+<td><code>prodc</code></td>
+<td>g C m<span class="math inline">\(^{-2}\)</span></td>
+<td>C in product pools.</td>
+</tr>
+<tr class="odd">
+<td>LAI</td>
+<td><code>lai</code></td>
+<td>m m<span class="math inline">\(^{-1}\)</span></td>
+<td>Leaf area index, calculated as total foliage area per unit ground area.</td>
+</tr>
+<tr class="even">
+<td>NPP</td>
+<td><code>npp</code></td>
+<td>g C m<span class="math inline">\(^{-2}\)</span> yr<span class="math inline">\(^{-1}\)</span></td>
+<td>Net primary production, mean over 10 y period.</td>
+</tr>
+<tr class="odd">
+<td>Land area</td>
+<td><code>fland</code></td>
+<td>1</td>
+<td>Land area fraction is used if not all of the gridcell area is land</td>
+</tr>
+<tr class="even">
+<td>Cropland area</td>
+<td><code>fcrop</code></td>
+<td>1</td>
+<td>Land area fraction currently under cultivation for crops. This excludes fallow areas.</td>
+</tr>
+<tr class="odd">
+<td>Pasture area</td>
+<td><code>fpast</code></td>
+<td>1</td>
+<td>Land area fraction under use for pasture, including extensive grazing, i.e., where a certain fraction of aboveground biomass is removed by grazers.</td>
+</tr>
+<tr class="even">
+<td>Grass cover</td>
+<td><code>fgrass</code></td>
+<td>1</td>
+<td>Land area fraction covered by natural grasslands (excluding croplands and pastures)</td>
+</tr>
+<tr class="odd">
+<td>Tree cover</td>
+<td><code>ftree</code></td>
+<td>1</td>
+<td>Land area fraction covered forest at all age stages, including young regrowth after harvesting or cropland abandonment.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="esm-simulations" class="section level2">
+<h2>ESM simulations</h2>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

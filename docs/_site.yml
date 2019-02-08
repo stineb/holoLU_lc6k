@@ -1,0 +1,25 @@
+name: "PAGES Landcover6K"
+navbar:
+  title: "<img id=\"logo\" style=\"width: 120px;\" src=\"img/landcover6k_logo.png\" />"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Protocols"
+      href: protocols.html
+    - text: "Forcing"
+      href: forcing.html
+    - text: "Outputs"
+      href: outputs.html
+    - text: "Implementation"
+      href: implementation.html
+    - text: "LULC forcing preparation"
+      href: lu_forcing_prep.html
+  right:
+    - icon: fab fa-github fa-lg
+      href: https://github.com/stineb/holoLU_lc6k
+output:
+  html_document:
+     theme: cosmo
+     css: site_libs/font-awesome-4.5.0/css/font-awesome.css
+     self_contained: no
+output_dir: "."      
