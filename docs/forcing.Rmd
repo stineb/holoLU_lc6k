@@ -117,6 +117,10 @@ We recommend the application of transiently varying orbital parameters based on 
 
 ### CO2
 
+A time series for globally uniform mean atmospheric CO2 concentration per year, based on data from Monnin et al. (2001), Monnin et al. (2004), and Siegenthaler et al. (2005), can be accessed [here](xxx). The data was prepared by F. Joos (pers. comm.).
+
 ### Climate
+
+Climate forcing data will be provided from an existing transient climate simulation made with the ECHAM model (Fischer and Jungclaus, 2011). Files cover years 6 ka BP to present-day transiently (i.e., in discrete time slices, with linear interpolation recommended for year in between), at the same spatial resolution as the landmask and LULC forcings. 
 
 # ESM simulations

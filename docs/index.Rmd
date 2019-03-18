@@ -10,14 +10,16 @@ output:
 <!-- ![](img/landcover6k_logo.png) -->
 
 
-This website contains protocols for the following purposes:
+This website contains protocols for the following purposes, related to the PAGES Landcover6K multi-model activity:
 
-- Defining simulation protocols 
-- Defining implementations of the land use forcing
-- Documenting the preparation of land use model forcing files
-- Analysing model outputs
+- Defining [simulation protocols](./protocols.html) 
+- Defining [model forcings](./forcing.html) 
+- Defining [implementations](./implementation.html) of the land use forcing
+- Defining the [model output format](./outputs.html) for participating models
+- Documenting the preparation of land use model forcing files [work in progress]
+- Analysing model outputs [work in progress]
 
-Codes are available on [github](https://github.com/stineb/holoLU_lc6k).
+Codes and data are available on [github](https://github.com/stineb/holoLU_lc6k).
 
 
 
