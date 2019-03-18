@@ -9,7 +9,49 @@ output:
 
 # BGC simulations
 
-## LULC forcing
+For simulations with constant climate and CO2 (`bgc_luXX_clim0`, see [Protocols](./protocols.htm)), only the land use forcing is specified explicitly here. Climate and CO2, and other forcings depending on the model, are to be held constant at pre-industrial values. We recommend modelling groups to follow established protocols for running models with constant preindustrial conditions, as commonly applied in other model intercomparison projects (e.g., *piControl* in CMIP6). Required information to fully specify the LULC forcing for Landcover6K BGC simulations are described below. LULC forcing files are provided at three spatial resolutions (see tabs: 2.5 $\times$ 3.75$^{\circ}$, 1$^{\circ}$ and 0.5$^{\circ}$). An example for how the LULC forcing was specified in Stocker et al. (2017), is given in the tab 'Example'.
+
+In the simulation with varying climate and CO2 (`bgc_lu00_clim1`, see [Protocols](./protocols.htm)), LULC is zero. Other temporally varying forcings to be applied for this simulation, are described in section 'Other forcings'.
+
+## LULC forcings {.tabset}
+
+### 2.5 $\times$ 3.75$^{\circ}$ 
+
+| Variable                 | File name    | Variable name         | Download link        | Used for               | Reference    | Remarks           |
+|--------------------------|--------------|-----------------------|----------------------|------------------------|--------------|-------------------|
+| Land mask                |              |                       |                      |                        |              |                   |                   
+| Cropland area fraction   |              |                       |                      |                        |              |                   |  
+| Pasture area fraction    |              |                       |                      |                        |              |                   |      
+
+### 1$^{\circ}$  
+
+| Variable                 | File name    | Variable name         | Download link        | Used for               | Reference    | Remarks           |
+|--------------------------|--------------|-----------------------|----------------------|------------------------|--------------|-------------------|
+| Land mask                |              |                       |                      |                        |              |                   |                   
+| Cropland area fraction   |              |                       |                      |                        |              |                   |  
+| Pasture area fraction    |              |                       |                      |                        |              |                   |      
+
+### 0.5$^{\circ}$
+
+| Variable                 | File name    | Variable name         | Download link        | Used for               | Reference    | Remarks           |
+|--------------------------|--------------|-----------------------|----------------------|------------------------|--------------|-------------------|
+| Land mask                |              |                       |                      |                        |              |                   |                   
+| Cropland area fraction   |              |                       |                      |                        |              |                   |  
+| Pasture area fraction    |              |                       |                      |                        |              |                   |      
+
+### Example
+
+| Variable                 | File name                                               | Variable name         | Download link        | Used for               | Reference    | Remarks           |
+|--------------------------|--------------                                           |-----------------------|----------------------|------------------------|--------------|-------------------|
+| Land mask                |                                                         |                       |                      |                        |              |                   |                   
+| Cropland area fraction   | landuse_hyde32_baseline_pastcorr_lpjgr.nc               | crop                       |                      |                        |              |                   |  
+| Pasture area fraction    | landuse_hyde32_baseline_pastcorr_lpjgr.nc               | past                  | [link](https://github.com/stineb/holoLU_lc6k/blob/master/data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc) |                        |              |                   |
+| Harvested area fraction  | harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc |                       |                      |                        |              | Defines the (forest) area that is cleared per year. |
+| Agricultural system      |                                                         |                       | [link](perm_lpjgr_holoLU2.nc)    |                        |              |                   |
+
+
+
+## Other forcings
 
 Four different time-varying input variables have to be provided, covering all time steps and given as maps (gridded fields for longitude and latitude).
 

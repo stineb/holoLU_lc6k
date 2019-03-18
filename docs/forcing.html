@@ -316,6 +316,146 @@ div.tocify {
 
 <div id="bgc-simulations" class="section level1">
 <h1>BGC simulations</h1>
+<p>For simulations with constant climate and CO2 (<code>bgc_luXX_clim0</code>, see <a href="./protocols.htm">Protocols</a>), only the land use forcing is specified explicitly here. Climate and CO2, and other forcings depending on the model, are to be held constant at pre-industrial values. We recommend modelling groups to follow established protocols for running models with constant preindustrial conditions, as commonly applied in other model intercomparison projects (e.g., <em>piControl</em> in CMIP6). Required files to fully specify the LULC forcing in simulations are described in Table 1. LULC forcing files are provided at three spatial resolutions (2.5 <span class="math inline">\(\times\)</span> 3.75<span class="math inline">\(^{\circ}\)</span>, 1<span class="math inline">\(^{\circ}\)</span> and 0.5<span class="math inline">\(^{\circ}\)</span>).</p>
+<p>In the simulation with varying climate and CO2 (<code>bgc_lu00_clim1</code>, see <a href="./protocols.htm">Protocols</a>), LULC is zero. Other temporally varying forcings are specified in Table 1.</p>
+<div id="lulc-forcings" class="section level2 tabset">
+<h2>LULC forcings</h2>
+<div id="times-3.75circ" class="section level3">
+<h3>2.5 <span class="math inline">\(\times\)</span> 3.75<span class="math inline">\(^{\circ}\)</span></h3>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>File name</th>
+<th>Variable name</th>
+<th>Download link</th>
+<th>Used for</th>
+<th>Reference</th>
+<th>Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Land mask</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Cropland area fraction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Pasture area fraction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="circ" class="section level3">
+<h3>1<span class="math inline">\(^{\circ}\)</span></h3>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>File name</th>
+<th>Variable name</th>
+<th>Download link</th>
+<th>Used for</th>
+<th>Reference</th>
+<th>Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Land mask</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Cropland area fraction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Pasture area fraction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="circ-1" class="section level3">
+<h3>0.5<span class="math inline">\(^{\circ}\)</span></h3>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>File name</th>
+<th>Variable name</th>
+<th>Download link</th>
+<th>Used for</th>
+<th>Reference</th>
+<th>Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Land mask</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Cropland area fraction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Pasture area fraction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="lulc-forcing" class="section level2">
 <h2>LULC forcing</h2>
 <p>Four different time-varying input variables have to be provided, covering all time steps and given as maps (gridded fields for longitude and latitude).</p>
