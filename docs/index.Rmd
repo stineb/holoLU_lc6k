@@ -10,7 +10,7 @@ output:
 <!-- ![](img/landcover6k_logo.png) -->
 
 
-This website contains protocols for the following purposes, related to the PAGES Landcover6K multi-model activity:
+This website contains protocols for the following purposes, related to the [PAGES Landcover6K](http://www.pages-igbp.org/ini/wg/landcover6k/intro) multi-model activity:
 
 - Defining [simulation protocols](./protocols.html) 
 - Defining [model forcings](./forcing.html) 
