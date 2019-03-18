@@ -9,13 +9,15 @@ output:
 
 ## BGC simulations
 
-| Name              | Net LULC    | Wood harvesting   | Shifting cultivation  | Varying climate and CO2   |
-|-------------------|-------------|-------------------|-----------------------|---------------------------|
-| `bgc_lu00_clim0`  | No          | No                | No                    | No                        |
-| `bgc_lu10_clim0`  | Yes         | No                | No                    | No                        |
-| `bgc_lu11_clim0`  | Yes         | Yes               | No                    | No                        |
-| `bgc_lu12_clim0`  | Yes         | Yes               | Yes                   | No                        |
-| `bgc_lu10_clim1`  | Yes         | No                | No                    | Yes                       |
+As "entry-card" for participation in the Landcover6K BGC model intercomparison, we require two simulations (no LULC and constant climate/CO2, with net LULC and constant climate/CO2). 
+
+| Name              | Net LULC    | Wood harvesting   | Gross land use change | Varying climate, CO2, and orbital parameters | Entry-card? |
+|-------------------|-------------|-------------------|-----------------------|---------------------------|------------ |
+| `bgc_lu00_clim0`  | No          | No                | No                    | No                        | Yes         |
+| `bgc_lu10_clim0`  | Yes         | No                | No                    | No                        | Yes         |
+| `bgc_lu11_clim0`  | Yes         | Yes               | No                    | No                        | No          |
+| `bgc_lu12_clim0`  | Yes         | Yes               | Yes                   | No                        | No          |
+| `bgc_lu10_clim1`  | Yes         | No                | No                    | Yes                       | No          |
 
 
 ## ESM simulations

@@ -8,10 +8,10 @@ navbar:
       href: protocols.html
     - text: "Forcing"
       href: forcing.html
-    - text: "Outputs"
-      href: outputs.html
     - text: "Implementation"
       href: implementation.html
+    - text: "Outputs"
+      href: outputs.html
     - text: "LULC forcing preparation"
       href: lu_forcing_prep.html
   right:

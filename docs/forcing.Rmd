@@ -9,61 +9,54 @@ output:
 
 # BGC simulations
 
-For simulations with constant climate and CO2 (`bgc_luXX_clim0`, see [Protocols](./protocols.htm)), only the land use forcing is specified explicitly here. Climate and CO2, and other forcings depending on the model, are to be held constant at pre-industrial values. We recommend modelling groups to follow established protocols for running models with constant preindustrial conditions, as commonly applied in other model intercomparison projects (e.g., *piControl* in CMIP6). Required information to fully specify the LULC forcing for Landcover6K BGC simulations are described below. LULC forcing files are provided at three spatial resolutions (see tabs: 2.5 $\times$ 3.75$^{\circ}$, 1$^{\circ}$ and 0.5$^{\circ}$). An example for how the LULC forcing was specified in Stocker et al. (2017), is given in the tab 'Example'.
+For Landcover6K-BGC simulations with constant climate and CO2 (`bgc_luXX_clim0`, see [Protocols](./protocols.html)), only the land use forcing is specified explicitly. Climate and CO2, and other forcings depending on the model, are to be held constant at *pre-industrial* values. We recommend modelling groups to follow established protocols for running models with constant preindustrial conditions, as commonly applied in other model intercomparison projects (e.g., *piControl* in CMIP6). Required information to fully specify the LULC forcing for Landcover6K-BGC simulations are described below. LULC forcing files are provided at three spatial resolutions (see tabs: 2.5 $\times$ 3.75$^{\circ}$, 1$^{\circ}$ and 0.5$^{\circ}$), along with corresponding land mask files. An example for how the LULC forcing was specified in Stocker et al. (2017) is given in the tab 'Example'. Information on *Agricultural system* is required for the model implementation to specify gross land use transitions (shifting cultivation, fallow rotations, see [Implementation](./implementation.html), and to specify additional parameters describing the land use system and how it is "translated" for model simultations
 
-In the simulation with varying climate and CO2 (`bgc_lu00_clim1`, see [Protocols](./protocols.htm)), LULC is zero. Other temporally varying forcings to be applied for this simulation, are described in section 'Other forcings'.
+In the simulation with varying climate and CO2 (`bgc_lu00_clim1`, see [Protocols](./protocols.html)), LULC is zero. Other temporally varying forcings to be applied for this simulation, are described in section 'Other forcings'.
 
-## LULC forcings {.tabset}
-
-### 2.5 $\times$ 3.75$^{\circ}$ 
-
-| Variable                 | File name    | Variable name         | Download link        | Used for               | Reference    | Remarks           |
-|--------------------------|--------------|-----------------------|----------------------|------------------------|--------------|-------------------|
-| Land mask                |              |                       |                      |                        |              |                   |                   
-| Cropland area fraction   |              |                       |                      |                        |              |                   |  
-| Pasture area fraction    |              |                       |                      |                        |              |                   |      
-
-### 1$^{\circ}$  
-
-| Variable                 | File name    | Variable name         | Download link        | Used for               | Reference    | Remarks           |
-|--------------------------|--------------|-----------------------|----------------------|------------------------|--------------|-------------------|
-| Land mask                |              |                       |                      |                        |              |                   |                   
-| Cropland area fraction   |              |                       |                      |                        |              |                   |  
-| Pasture area fraction    |              |                       |                      |                        |              |                   |      
-
-### 0.5$^{\circ}$
-
-| Variable                 | File name    | Variable name         | Download link        | Used for               | Reference    | Remarks           |
-|--------------------------|--------------|-----------------------|----------------------|------------------------|--------------|-------------------|
-| Land mask                |              |                       |                      |                        |              |                   |                   
-| Cropland area fraction   |              |                       |                      |                        |              |                   |  
-| Pasture area fraction    |              |                       |                      |                        |              |                   |      
+## LULC forcings overview {.tabset}
 
 ### Example
 
-| Variable                 | File name                                               | Variable name         | Download link        | Used for               | Reference    | Remarks           |
-|--------------------------|--------------                                           |-----------------------|----------------------|------------------------|--------------|-------------------|
-| Land mask                |                                                         |                       |                      |                        |              |                   |                   
-| Cropland area fraction   | landuse_hyde32_baseline_pastcorr_lpjgr.nc               | crop                       |                      |                        |              |                   |  
-| Pasture area fraction    | landuse_hyde32_baseline_pastcorr_lpjgr.nc               | past                  | [link](https://github.com/stineb/holoLU_lc6k/blob/master/data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc) |                        |              |                   |
-| Harvested area fraction  | harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc |                       |                      |                        |              | Defines the (forest) area that is cleared per year. |
-| Agricultural system      |                                                         |                       | [link](perm_lpjgr_holoLU2.nc)    |                        |              |                   |
+| Variable                 | File name                                                                                                                                                                | Variable name         | Reference              | Remarks           |
+|--------------------------|--------------                                                                                                                                                            |-----------------------|---------------         |-------------------|
+| Land mask                | [landmask_pelt04_rs_lpjgr.cdf](https://github.com/stineb/holoLU_lc6k/blob/master/data/landmask_pelt04_rs_lpjgr.cdf)                                                      | LAND                  | Peltier (2004)         | Land: LAND = 2. Ice-covered: LAND = 0. Use last time slice for all time step (constant present-day mask). |                   
+| Cropland area fraction   | [landuse_hyde32_baseline_pastcorr_lpjgr.nc](https://github.com/stineb/holoLU_lc6k/blob/master/data/landuse_hyde32_baseline_pastcorr_lpjgr.nc)                            | crop                  | Klein Goldewijk (2016) |                   |  
+| Pasture area fraction    | [landuse_hyde32_baseline_pastcorr_lpjgr.nc](https://github.com/stineb/holoLU_lc6k/blob/master/data/landuse_hyde32_baseline_pastcorr_lpjgr.nc)                            | past                  | Klein Goldewijk (2016) | Naturally open vegetation cover, simulated by LPX under preindustrial conditions, is subtracted from the pasture area fraction given by HYDE 3.2. |
+| Harvested area fraction  | [harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc](https://github.com/stineb/holoLU_lc6k/blob/master/data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc)| aharv                 | Hurtt et al. (2006)    | Defines the (forest) area that is cleared per year. Used Hurtt et al. (2006) data and back-projected by continent in proportion to cropland area
+| Agricultural system      | [perm_lpjgr_holoLU2.nc](https://github.com/stineb/holoLU_lc6k/blob/master/data/perm_lpjgr_holoLU2.nc)                                                                    | PERM                  | Butler (1980); Hurtt et al. (2006); Stocker et al. (2017) | Here a boolean. Defines whether 100% of cropland area in this gridcell is to be treated as shifting cultivation or not.|
 
 
+### 2.5 $\times$ 3.75$^{\circ}$ 
 
-## Other forcings
+| Variable                 | File name                                                                                                                                                                | Variable name         | Reference              | Remarks           |
+|--------------------------|--------------                                                                                                                                                            |-----------------------|---------------         |-------------------|
+| Land mask                | [landmask_pelt04_rs_lpjgr.cdf](https://github.com/stineb/holoLU_lc6k/blob/master/data/landmask_pelt04_rs_lpjgr.cdf)                                                      | LAND                  | Peltier (2004)         | Land: LAND = 2. Ice-covered: LAND = 0. Use last time slice for all time step (constant present-day mask). |                   
+| Cropland area fraction   | [landuse_hyde32_baseline_pastcorr_lpjgr.nc](https://github.com/stineb/holoLU_lc6k/blob/master/data/landuse_hyde32_baseline_pastcorr_lpjgr.nc)                            | crop                  | Klein Goldewijk (2016) |                   |  
+| Pasture area fraction    | [landuse_hyde32_baseline_pastcorr_lpjgr.nc](https://github.com/stineb/holoLU_lc6k/blob/master/data/landuse_hyde32_baseline_pastcorr_lpjgr.nc)                            | past                  | Klein Goldewijk (2016) | Naturally open vegetation cover, simulated by LPX under preindustrial conditions, is subtracted from the pasture area fraction given by HYDE 3.2. |
+| Harvested area fraction  | [harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc](https://github.com/stineb/holoLU_lc6k/blob/master/data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc)| aharv                 | Hurtt et al. (2006)    | Defines the (forest) area that is cleared per year. Used Hurtt et al. (2006) data and back-projected by continent in proportion to cropland area
+| Agricultural system      | [perm_lpjgr_holoLU2.nc](https://github.com/stineb/holoLU_lc6k/blob/master/data/perm_lpjgr_holoLU2.nc)                                                                    | PERM                  | Butler (1980); Hurtt et al. (2006); Stocker et al. (2017) | Boolean. Defines whether 100% of cropland area in this gridcell is to be treated as shifting cultivation or not.|
 
-Four different time-varying input variables have to be provided, covering all time steps and given as maps (gridded fields for longitude and latitude).
+### 1$^{\circ}$  
 
-1. Cropland area
-2. Pasture area
-3. Urban area
-4. Harvested area
-5. Agricultural system
+| Variable                 | File name                   | Variable name     | Reference              | Remarks           |
+|--------------------------|--------------               |-------------------|---------------         |-------------------|
+| Land mask                |                             |                   |                        |                   |
+| Cropland area fraction   |                             |                   |                        |                   |
+| Pasture area fraction    |                             |                   |                        |                   |
+| Harvested area fraction  |                             |                   |                        |                   |
+| Agricultural system      |                             |                   |                        |                   |
 
-One additional, temporally constant input variable, also given s map, has to be provided:
+### 0.5$^{\circ}$
 
-6. Land suitability 
+| Variable                 | File name                   | Variable name     | Reference              | Remarks           |
+|--------------------------|--------------               |-------------------|---------------         |-------------------|
+| Land mask                |                             |                   |                        |                   |
+| Cropland area fraction   |                             |                   |                        |                   |
+| Pasture area fraction    |                             |                   |                        |                   |
+| Harvested area fraction  |                             |                   |                        |                   |
+| Agricultural system      |                             |                   |                        |                   |
+
+## LULC forcings description
 
 ### Cropland area
 
@@ -75,58 +68,55 @@ One additional, temporally constant input variable, also given s map, has to be 
 
 ### Urban area 
 
-*Gridcell area fraction*. This defines the extent of built-up land, where no vegetation is allowed to grow. Soil C stocks are not to be modiefied "artificially" upon expansion of urban areas, but receive no further litter C inputs and thus decay with time.
+*Gridcell area fraction*. Due to the relatively small area covered by urban, built-up lands during the preindustrial period, we neglect this land use class for BGC simulations. 
 
 ### Harvested area
 
-*gridcell fraction* Defines the (forest) area that is cleared per year to satisfy demand for wood (construction, smeltering).
+*Gridcell area fraction* Defines the (forest) area that is cleared per year to satisfy demand for wood (construction, smeltering).
 
 ### Agricultural system
 
-*Categorical*. This is to define Level-2 land use classes after Morrison et al. (2018) (see Figure below) and is to be used as an identifiyer to define a set of land use parameters that characterise typical practices for different agricultural systems. This classification should be translatable into information required for the implementation of land use in BGC and ESM models. Land use parameters required by models are:
+*Categorical*. This is to define the spatial distribution of Level-2 land use classes at different points in time (planned 6 and 2 ka BP) after Morrison et al. (2018) (see Figure below). The classification is used to define a set of land use parameters that characterise typical practices for each category (agricultural system) and that are directly translatable into model implementations for Landcover6K-BGC (and ESM?) simulations. Land use parameters required by models are:
 
-- Whether croplands are under permanent cultivation (including short rotation fallow, where the ratio of cultivated to fallow land is greater than 1), or under a slash-and-burn type land use.
-- Land turnover rate under slash-and-burn cultivation, defined as the fraction of cropland abandoned each year. Example: If fields are cultivated, e.g., for 5 years and then completely abandoned, the abandonment rate would be 20%.
+- Fallow duration ($\tau_f$)
+- Duration of cultivation between fallow periods ($\tau_c$)
 - Whether or not croplands are irrigated (alleviating all soil moisture limitation in BGC models, and setting annual precipitation on respective land to potential evapotranspiration minus precipitation (PET-P) in ESMs.)
 - Whether or not litter inputs are reduced (crop harvesting and off-site decomposition of residues, absence of mulching) and/or soil organic matter decomposition is accelerated by cultivation (e.g., tillage). This information is important for simulating soil C stocks and their responses to land use change.
 
 A lookup table can then be used to associate the Level-2 classification with required land use parameters for its implementation in models:
 
-| Level 2 class                       | Permanent cultivation  | Land turnover rate | Irrigated croplands | Reduced soil C |
-|-------------------------------------|------------------------|--------------------|---------------------|----------------|
-| Tropical intensive agroforestry     | `TRUE`                 | NA                 | `FALSE`             | ???            |
-| Swidden/shifting cultivation        | `FALSE`                | 20% (example)      | `FALSE`             | `TRUE`         |
-| Industrial monocrop/plantation      | `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
-| Flooded field farming               | `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
-| Non-irr. annual cropping w/ animals | `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
-| Non-irr. annual cropping w/o animals| `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
-| Irr. annual cropping w/ animals     | `TRUE`                 | 0%                 | `TRUE`              | `TRUE`         |
-| Irr. annual cropping w/o animals    | `TRUE`                 | 0%                 | `TRUE`              | `TRUE`         |
-| Pastoralism, sedentary              | `TRUE`                 | NA                 | `FALSE`             | `TRUE`         |
-| Pastoralism, mobile/transhumant     | `FALSE`                | NA                 | `FALSE`             | `TRUE`         |
-| Urban                               | `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
+| Level 2 class                       | $\tau_f$ (yr) | $\tau_c$ (yr) | Irrigated croplands | Reduced soil C |
+|-------------------------------------|---------------|---------------|---------------------|----------------|
+| Tropical intensive agroforestry     | 0             | inf.          | `FALSE`             | ???            |
+| Swidden/shifting cultivation        | 15            | 3.0           | `FALSE`             | `TRUE`         |
+| Industrial monocrop/plantation      | 0             | inf.          | `FALSE`             | `TRUE`         |
+| Flooded field farming               | 0             | inf.          | `FALSE`             | `TRUE`         |
+| Non-irr. annual cropping w/ animals | 1             | 2.0           | `FALSE`             | `TRUE`         |
+| Non-irr. annual cropping w/o animals| 1             | 2.0           | `FALSE`             | `TRUE`         |
+| Irr. annual cropping w/ animals     | 0             | inf.          | `TRUE`              | `TRUE`         |
+| Irr. annual cropping w/o animals    | 0             | inf.          | `TRUE`              | `TRUE`         |
+| Pastoralism, sedentary              | NA            | NA            | `FALSE`             | `TRUE`         |
+| Pastoralism, mobile/transhumant     | NA            | NA            | `FALSE`             | `TRUE`         |
 
-Note that 'urban' is a Level-1 class, but no further distinction is made for applications in models. Other inormation from the Level-1/Level-2 land use classification are not relevant as model forcing. 
+Other inormation from the Level-1/Level-2 land use classification are not relevant as model forcing. More information on how to use parameters to define land use transitions is given in [Implementation](./implementation.html).
 
 ![The LandCover6k land-use classification after Morrison et al., 2018.](img/lu_classes_lc6k.png)
 
-### Land suitability
+**To consider:**
 
-*Gridcell fraction* Defines the fraction of the gridcell that is suitable for agriculture. The remainder remains primary land throughout the entire simulation. This is used to constrain the maximum extent of secondary land. 
-
-
+The Level-2 land use classification maps are given at a high spatial resolution (10 km). Model forcing datasets are required at a much lower spatial resolution. Aggregating from the original dataset to the model forcing dataset may either be done using the most frequent class within each coarse-resolution gridcell, or the model forcing could be defined as the fractional shares of each Level-2 class within each coarse-resolution gridcell. This would lead to 10 variables. E.g.,  specifying $f_1$ the share of *Tropical intensife agroforestry*, $f_2$ specifying the share of *Swidden/shifting cultivation*, etc. as a fraction of total agricultural (or cropland) area. And $\sum_i f_i =1$.
 
 
 
 
+## Other forcings
 
+### Orbital parameters
 
+We recommend the application of transiently varying orbital parameters based on Berger et al. (1978). Fortran code for calculating eccentricity, obliquity, and the longitude of perihelion can be accessed [here](../code/orbpar.F).
 
+### CO2
 
-
-
-
-
-
+### Climate
 
 # ESM simulations

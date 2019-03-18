@@ -23,8 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -33,12 +33,10 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
 }
 </script>
 
@@ -94,14 +92,8 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
-.html-widget {
-  margin-bottom: 20px;
-}
 button.code-folding-btn:focus {
   outline: none;
-}
-summary {
-  display: list-item;
 }
 </style>
 
@@ -117,6 +109,7 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
+
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -136,43 +129,6 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -194,77 +150,18 @@ $(document).ready(function () {
 });
 </script>
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -387,10 +284,10 @@ div.tocify {
   <a href="forcing.html">Forcing</a>
 </li>
 <li>
-  <a href="outputs.html">Outputs</a>
+  <a href="implementation.html">Implementation</a>
 </li>
 <li>
-  <a href="implementation.html">Implementation</a>
+  <a href="outputs.html">Outputs</a>
 </li>
 <li>
   <a href="lu_forcing_prep.html">LULC forcing preparation</a>
@@ -419,20 +316,25 @@ div.tocify {
 
 <div id="bgc-simulations" class="section level1">
 <h1>BGC simulations</h1>
-<p>For simulations with constant climate and CO2 (<code>bgc_luXX_clim0</code>, see <a href="./protocols.htm">Protocols</a>), only the land use forcing is specified explicitly here. Climate and CO2, and other forcings depending on the model, are to be held constant at pre-industrial values. We recommend modelling groups to follow established protocols for running models with constant preindustrial conditions, as commonly applied in other model intercomparison projects (e.g., <em>piControl</em> in CMIP6). Required files to fully specify the LULC forcing in simulations are described in Table 1. LULC forcing files are provided at three spatial resolutions (2.5 <span class="math inline">\(\times\)</span> 3.75<span class="math inline">\(^{\circ}\)</span>, 1<span class="math inline">\(^{\circ}\)</span> and 0.5<span class="math inline">\(^{\circ}\)</span>).</p>
-<p>In the simulation with varying climate and CO2 (<code>bgc_lu00_clim1</code>, see <a href="./protocols.htm">Protocols</a>), LULC is zero. Other temporally varying forcings are specified in Table 1.</p>
-<div id="lulc-forcings" class="section level2 tabset">
-<h2>LULC forcings</h2>
-<div id="times-3.75circ" class="section level3">
-<h3>2.5 <span class="math inline">\(\times\)</span> 3.75<span class="math inline">\(^{\circ}\)</span></h3>
+<p>For Landcover6K-BGC simulations with constant climate and CO2 (<code>bgc_luXX_clim0</code>, see <a href="./protocols.html">Protocols</a>), only the land use forcing is specified explicitly. Climate and CO2, and other forcings depending on the model, are to be held constant at <em>pre-industrial</em> values. We recommend modelling groups to follow established protocols for running models with constant preindustrial conditions, as commonly applied in other model intercomparison projects (e.g., <em>piControl</em> in CMIP6). Required information to fully specify the LULC forcing for Landcover6K-BGC simulations are described below. LULC forcing files are provided at three spatial resolutions (see tabs: 2.5 <span class="math inline">\(\times\)</span> 3.75<span class="math inline">\(^{\circ}\)</span>, 1<span class="math inline">\(^{\circ}\)</span> and 0.5<span class="math inline">\(^{\circ}\)</span>), along with corresponding land mask files. An example for how the LULC forcing was specified in Stocker et al. (2017) is given in the tab ‘Example’. Information on <em>Agricultural system</em> is required for the model implementation to specify gross land use transitions (shifting cultivation, fallow rotations, see <a href="./implementation.html">Implementation</a>, and to specify additional parameters describing the land use system and how it is “translated” for model simultations</p>
+<p>In the simulation with varying climate and CO2 (<code>bgc_lu00_clim1</code>, see <a href="./protocols.html">Protocols</a>), LULC is zero. Other temporally varying forcings to be applied for this simulation, are described in section ‘Other forcings’.</p>
+<div id="lulc-forcings-overview" class="section level2 tabset">
+<h2>LULC forcings overview</h2>
+<div id="example" class="section level3">
+<h3>Example</h3>
 <table>
+<colgroup>
+<col width="26%" />
+<col width="14%" />
+<col width="23%" />
+<col width="15%" />
+<col width="19%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Variable</th>
 <th>File name</th>
 <th>Variable name</th>
-<th>Download link</th>
-<th>Used for</th>
 <th>Reference</th>
 <th>Remarks</th>
 </tr>
@@ -440,30 +342,96 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td>Land mask</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/landmask_pelt04_rs_lpjgr.cdf">landmask_pelt04_rs_lpjgr.cdf</a></td>
+<td>LAND</td>
+<td>Peltier (2004)</td>
+<td>Land: LAND = 2. Ice-covered: LAND = 0. Use last time slice for all time step (constant present-day mask).</td>
 </tr>
 <tr class="even">
 <td>Cropland area fraction</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/landuse_hyde32_baseline_pastcorr_lpjgr.nc">landuse_hyde32_baseline_pastcorr_lpjgr.nc</a></td>
+<td>crop</td>
+<td>Klein Goldewijk (2016)</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>Pasture area fraction</td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/landuse_hyde32_baseline_pastcorr_lpjgr.nc">landuse_hyde32_baseline_pastcorr_lpjgr.nc</a></td>
+<td>past</td>
+<td>Klein Goldewijk (2016)</td>
+<td>Naturally open vegetation cover, simulated by LPX under preindustrial conditions, is subtracted from the pasture area fraction given by HYDE 3.2.</td>
+</tr>
+<tr class="even">
+<td>Harvested area fraction</td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc">harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc</a></td>
+<td>aharv</td>
+<td>Hurtt et al. (2006)</td>
+<td>Defines the (forest) area that is cleared per year. Used Hurtt et al. (2006) data and back-projected by continent in proportion to cropland area</td>
+</tr>
+<tr class="odd">
+<td>Agricultural system</td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/perm_lpjgr_holoLU2.nc">perm_lpjgr_holoLU2.nc</a></td>
+<td>PERM</td>
+<td>Butler (1980); Hurtt et al. (2006); Stocker et al. (2017)</td>
+<td>Here a boolean. Defines whether 100% of cropland area in this gridcell is to be treated as shifting cultivation or not.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="times-3.75circ" class="section level3">
+<h3>2.5 <span class="math inline">\(\times\)</span> 3.75<span class="math inline">\(^{\circ}\)</span></h3>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="14%" />
+<col width="23%" />
+<col width="15%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>File name</th>
+<th>Variable name</th>
+<th>Reference</th>
+<th>Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Land mask</td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/landmask_pelt04_rs_lpjgr.cdf">landmask_pelt04_rs_lpjgr.cdf</a></td>
+<td>LAND</td>
+<td>Peltier (2004)</td>
+<td>Land: LAND = 2. Ice-covered: LAND = 0. Use last time slice for all time step (constant present-day mask).</td>
+</tr>
+<tr class="even">
+<td>Cropland area fraction</td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/landuse_hyde32_baseline_pastcorr_lpjgr.nc">landuse_hyde32_baseline_pastcorr_lpjgr.nc</a></td>
+<td>crop</td>
+<td>Klein Goldewijk (2016)</td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+</tr>
+<tr class="odd">
+<td>Pasture area fraction</td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/landuse_hyde32_baseline_pastcorr_lpjgr.nc">landuse_hyde32_baseline_pastcorr_lpjgr.nc</a></td>
+<td>past</td>
+<td>Klein Goldewijk (2016)</td>
+<td>Naturally open vegetation cover, simulated by LPX under preindustrial conditions, is subtracted from the pasture area fraction given by HYDE 3.2.</td>
+</tr>
+<tr class="even">
+<td>Harvested area fraction</td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc">harvest_hurtt_byarea_v2_lpjgr_backby_hyde32_baseline.nc</a></td>
+<td>aharv</td>
+<td>Hurtt et al. (2006)</td>
+<td>Defines the (forest) area that is cleared per year. Used Hurtt et al. (2006) data and back-projected by continent in proportion to cropland area</td>
+</tr>
+<tr class="odd">
+<td>Agricultural system</td>
+<td><a href="https://github.com/stineb/holoLU_lc6k/blob/master/data/perm_lpjgr_holoLU2.nc">perm_lpjgr_holoLU2.nc</a></td>
+<td>PERM</td>
+<td>Butler (1980); Hurtt et al. (2006); Stocker et al. (2017)</td>
+<td>Boolean. Defines whether 100% of cropland area in this gridcell is to be treated as shifting cultivation or not.</td>
 </tr>
 </tbody>
 </table>
@@ -476,8 +444,6 @@ div.tocify {
 <th>Variable</th>
 <th>File name</th>
 <th>Variable name</th>
-<th>Download link</th>
-<th>Used for</th>
 <th>Reference</th>
 <th>Remarks</th>
 </tr>
@@ -489,13 +455,9 @@ div.tocify {
 <td></td>
 <td></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr class="even">
 <td>Cropland area fraction</td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -505,6 +467,18 @@ div.tocify {
 <td>Pasture area fraction</td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Harvested area fraction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Agricultural system</td>
 <td></td>
 <td></td>
 <td></td>
@@ -521,8 +495,6 @@ div.tocify {
 <th>Variable</th>
 <th>File name</th>
 <th>Variable name</th>
-<th>Download link</th>
-<th>Used for</th>
 <th>Reference</th>
 <th>Remarks</th>
 </tr>
@@ -534,13 +506,9 @@ div.tocify {
 <td></td>
 <td></td>
 <td></td>
-<td></td>
-<td></td>
 </tr>
 <tr class="even">
 <td>Cropland area fraction</td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -552,6 +520,18 @@ div.tocify {
 <td></td>
 <td></td>
 <td></td>
+</tr>
+<tr class="even">
+<td>Harvested area fraction</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Agricultural system</td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -559,20 +539,8 @@ div.tocify {
 </table>
 </div>
 </div>
-<div id="lulc-forcing" class="section level2">
-<h2>LULC forcing</h2>
-<p>Four different time-varying input variables have to be provided, covering all time steps and given as maps (gridded fields for longitude and latitude).</p>
-<ol style="list-style-type: decimal">
-<li>Cropland area</li>
-<li>Pasture area</li>
-<li>Urban area</li>
-<li>Harvested area</li>
-<li>Agricultural system</li>
-</ol>
-<p>One additional, temporally constant input variable, also given s map, has to be provided:</p>
-<ol start="6" style="list-style-type: decimal">
-<li>Land suitability</li>
-</ol>
+<div id="lulc-forcings-description" class="section level2">
+<h2>LULC forcings description</h2>
 <div id="cropland-area" class="section level3">
 <h3>Cropland area</h3>
 <p><em>Gridcell area fraction</em>. Specifies the area used for crop cultivation at a given point in time. This excludes fallow fields.</p>
@@ -583,35 +551,28 @@ div.tocify {
 </div>
 <div id="urban-area" class="section level3">
 <h3>Urban area</h3>
-<p><em>Gridcell area fraction</em>. This defines the extent of built-up land, where no vegetation is allowed to grow. Soil C stocks are not to be modiefied “artificially” upon expansion of urban areas, but receive no further litter C inputs and thus decay with time.</p>
+<p><em>Gridcell area fraction</em>. Due to the relatively small area covered by urban, built-up lands during the preindustrial period, we neglect this land use class for BGC simulations.</p>
 </div>
 <div id="harvested-area" class="section level3">
 <h3>Harvested area</h3>
-<p><em>gridcell fraction</em> Defines the (forest) area that is cleared per year to satisfy demand for wood (construction, smeltering).</p>
+<p><em>Gridcell area fraction</em> Defines the (forest) area that is cleared per year to satisfy demand for wood (construction, smeltering).</p>
 </div>
 <div id="agricultural-system" class="section level3">
 <h3>Agricultural system</h3>
-<p><em>Categorical</em>. This is to define Level-2 land use classes after Morrison et al. (2018) (see Figure below) and is to be used as an identifiyer to define a set of land use parameters that characterise typical practices for different agricultural systems. This classification should be translatable into information required for the implementation of land use in BGC and ESM models. Land use parameters required by models are:</p>
+<p><em>Categorical</em>. This is to define the spatial distribution of Level-2 land use classes at different points in time (planned 6 and 2 ka BP) after Morrison et al. (2018) (see Figure below). The classification is used to define a set of land use parameters that characterise typical practices for each category (agricultural system) and that are directly translatable into model implementations for Landcover6K-BGC (and ESM?) simulations. Land use parameters required by models are:</p>
 <ul>
-<li>Whether croplands are under permanent cultivation (including short rotation fallow, where the ratio of cultivated to fallow land is greater than 1), or under a slash-and-burn type land use.</li>
-<li>Land turnover rate under slash-and-burn cultivation, defined as the fraction of cropland abandoned each year. Example: If fields are cultivated, e.g., for 5 years and then completely abandoned, the abandonment rate would be 20%.</li>
+<li>Fallow duration (<span class="math inline">\(\tau_f\)</span>)</li>
+<li>Duration of cultivation between fallow periods (<span class="math inline">\(\tau_c\)</span>)</li>
 <li>Whether or not croplands are irrigated (alleviating all soil moisture limitation in BGC models, and setting annual precipitation on respective land to potential evapotranspiration minus precipitation (PET-P) in ESMs.)</li>
 <li>Whether or not litter inputs are reduced (crop harvesting and off-site decomposition of residues, absence of mulching) and/or soil organic matter decomposition is accelerated by cultivation (e.g., tillage). This information is important for simulating soil C stocks and their responses to land use change.</li>
 </ul>
 <p>A lookup table can then be used to associate the Level-2 classification with required land use parameters for its implementation in models:</p>
-<table style="width:100%;">
-<colgroup>
-<col width="30%" />
-<col width="20%" />
-<col width="17%" />
-<col width="17%" />
-<col width="13%" />
-</colgroup>
+<table>
 <thead>
 <tr class="header">
 <th>Level 2 class</th>
-<th>Permanent cultivation</th>
-<th>Land turnover rate</th>
+<th><span class="math inline">\(\tau_f\)</span> (yr)</th>
+<th><span class="math inline">\(\tau_c\)</span> (yr)</th>
 <th>Irrigated croplands</th>
 <th>Reduced soil C</th>
 </tr>
@@ -619,92 +580,96 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td>Tropical intensive agroforestry</td>
-<td><code>TRUE</code></td>
-<td>NA</td>
+<td>0</td>
+<td>inf.</td>
 <td><code>FALSE</code></td>
 <td>???</td>
 </tr>
 <tr class="even">
 <td>Swidden/shifting cultivation</td>
-<td><code>FALSE</code></td>
-<td>20% (example)</td>
+<td>15</td>
+<td>3.0</td>
 <td><code>FALSE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="odd">
 <td>Industrial monocrop/plantation</td>
-<td><code>TRUE</code></td>
-<td>0%</td>
+<td>0</td>
+<td>inf.</td>
 <td><code>FALSE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="even">
 <td>Flooded field farming</td>
-<td><code>TRUE</code></td>
-<td>0%</td>
+<td>0</td>
+<td>inf.</td>
 <td><code>FALSE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="odd">
 <td>Non-irr. annual cropping w/ animals</td>
-<td><code>TRUE</code></td>
-<td>0%</td>
+<td>1</td>
+<td>2.0</td>
 <td><code>FALSE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="even">
 <td>Non-irr. annual cropping w/o animals</td>
-<td><code>TRUE</code></td>
-<td>0%</td>
+<td>1</td>
+<td>2.0</td>
 <td><code>FALSE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="odd">
 <td>Irr. annual cropping w/ animals</td>
-<td><code>TRUE</code></td>
-<td>0%</td>
+<td>0</td>
+<td>inf.</td>
 <td><code>TRUE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="even">
 <td>Irr. annual cropping w/o animals</td>
-<td><code>TRUE</code></td>
-<td>0%</td>
+<td>0</td>
+<td>inf.</td>
 <td><code>TRUE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="odd">
 <td>Pastoralism, sedentary</td>
-<td><code>TRUE</code></td>
+<td>NA</td>
 <td>NA</td>
 <td><code>FALSE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 <tr class="even">
 <td>Pastoralism, mobile/transhumant</td>
-<td><code>FALSE</code></td>
 <td>NA</td>
-<td><code>FALSE</code></td>
-<td><code>TRUE</code></td>
-</tr>
-<tr class="odd">
-<td>Urban</td>
-<td><code>TRUE</code></td>
-<td>0%</td>
+<td>NA</td>
 <td><code>FALSE</code></td>
 <td><code>TRUE</code></td>
 </tr>
 </tbody>
 </table>
-<p>Note that ‘urban’ is a Level-1 class, but no further distinction is made for applications in models. Other inormation from the Level-1/Level-2 land use classification are not relevant as model forcing.</p>
+<p>Other inormation from the Level-1/Level-2 land use classification are not relevant as model forcing. More information on how to use parameters to define land use transitions is given in <a href="./implementation.html">Implementation</a>.</p>
 <div class="figure">
 <img src="img/lu_classes_lc6k.png" alt="The LandCover6k land-use classification after Morrison et al., 2018." />
 <p class="caption">The LandCover6k land-use classification after Morrison et al., 2018.</p>
 </div>
+<p><strong>To consider:</strong></p>
+<p>The Level-2 land use classification maps are given at a high spatial resolution (10 km). Model forcing datasets are required at a much lower spatial resolution. Aggregating from the original dataset to the model forcing dataset may either be done using the most frequent class within each coarse-resolution gridcell, or the model forcing could be defined as the fractional shares of each Level-2 class within each coarse-resolution gridcell. This would lead to 10 variables. E.g., specifying <span class="math inline">\(f_1\)</span> the share of <em>Tropical intensife agroforestry</em>, <span class="math inline">\(f_2\)</span> specifying the share of <em>Swidden/shifting cultivation</em>, etc. as a fraction of total agricultural (or cropland) area. And <span class="math inline">\(\sum_i f_i =1\)</span>.</p>
 </div>
-<div id="land-suitability" class="section level3">
-<h3>Land suitability</h3>
-<p><em>Gridcell fraction</em> Defines the fraction of the gridcell that is suitable for agriculture. The remainder remains primary land throughout the entire simulation. This is used to constrain the maximum extent of secondary land.</p>
+</div>
+<div id="other-forcings" class="section level2">
+<h2>Other forcings</h2>
+<div id="orbital-parameters" class="section level3">
+<h3>Orbital parameters</h3>
+<p>We recommend the application of transiently varying orbital parameters based on Berger et al. (1978). Fortran code for calculating eccentricity, obliquity, and the longitude of perihelion can be accessed <a href="../code/orbpar.F">here</a>.</p>
+</div>
+<div id="co2" class="section level3">
+<h3>CO2</h3>
+</div>
+<div id="climate" class="section level3">
+<h3>Climate</h3>
 </div>
 </div>
 </div>
