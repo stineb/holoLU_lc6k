@@ -55,48 +55,78 @@ In the simulation with varying climate and CO2 (`bgc_lu00_clim1`, see [Protocols
 
 Four different time-varying input variables have to be provided, covering all time steps and given as maps (gridded fields for longitude and latitude).
 
-1. Cropland area (gridcell fraction).
-2. Pasture area (gridcell fraction), 
-3. Agricultural system (categorical), 
-4. Harvested area (gridcell fraction), defines the (forest) area that is cleared per year.
+1. Cropland area
+2. Pasture area
+3. Urban area
+4. Harvested area
+5. Agricultural system
 
 One additional, temporally constant input variable, also given s map, has to be provided:
 
-5. Land suitability (gridcell fraction), defines the fraction of the gridcell that is suitable for agriculture. Remainder remains primary land. This is used to constrain the maximum extent of secondary land. 
+6. Land suitability 
 
 ### Cropland area
 
-(Gridcell area fraction)
+*Gridcell area fraction*. Specifies the area used for crop cultivation at a given point in time. This excludes fallow fields. 
 
 ### Pasture area 
 
-(Gridcell area fraction)
+*Gridcell area fraction*. This defines the extent of land that is regularly grazed. Note that naturally open vegetation is assumed to be used before any forest is cleared to satisfy expanding pasture areas. If the balance between open land and closed forests is dynamically simulated by the model, a reduced pasture extent that fully comes at the expense of the simulated potential natural vegetation has to be derived offline beforehand. On land used for pasture, aboveground biomass is to be removed periodically and should not be added to litter pools (but respective C to be respired directly as CO2). No land turnover is simulated for pasture. In areas of mobile or transhumant pastoralism, the annual aboveground biomass removal fraction is to be set to a lower value.
 
-This defines the extent of land that is regularly grazed. Note that naturally open vegetation is assumed to be used before any forest is cleared to satisfy expanding pasture areas.
+### Urban area 
+
+*Gridcell area fraction*. This defines the extent of built-up land, where no vegetation is allowed to grow. Soil C stocks are not to be modiefied "artificially" upon expansion of urban areas, but receive no further litter C inputs and thus decay with time.
+
+### Harvested area
+
+*gridcell fraction* Defines the (forest) area that is cleared per year to satisfy demand for wood (construction, smeltering).
 
 ### Agricultural system
 
-(Categorical)
+*Categorical*. This is to define Level-2 land use classes after Morrison et al. (2018) (see Figure below) and is to be used as an identifiyer to define a set of land use parameters that characterise typical practices for different agricultural systems. This classification should be translatable into information required for the implementation of land use in BGC and ESM models. Land use parameters required by models are:
 
-This is to define Level-2 land use classes after Morrison et al. (2018) (see Figure below) and is to be used as an identifiyer to define a set of land use parameters that characterise typical practices for different agricultural systems. This classification should be "translatable" into information required for the implementation of land use in BGC and ESM models. Required information is:
-
-- Whether croplands are under permanent cultivation (including short rotation fallow, where the ratio of cultivated to fallow land is greater than 1), or under a slash-and-burn type land use. 
+- Whether croplands are under permanent cultivation (including short rotation fallow, where the ratio of cultivated to fallow land is greater than 1), or under a slash-and-burn type land use.
 - Land turnover rate under slash-and-burn cultivation, defined as the fraction of cropland abandoned each year. Example: If fields are cultivated, e.g., for 5 years and then completely abandoned, the abandonment rate would be 20%.
 - Whether or not croplands are irrigated (alleviating all soil moisture limitation in BGC models, and setting annual precipitation on respective land to potential evapotranspiration minus precipitation (PET-P) in ESMs.)
 - Whether or not litter inputs are reduced (crop harvesting and off-site decomposition of residues, absence of mulching) and/or soil organic matter decomposition is accelerated by cultivation (e.g., tillage). This information is important for simulating soil C stocks and their responses to land use change.
 
-A lookup table can then be used to associate the Level-2 classification with land use parameters for its implementation in models:
+A lookup table can then be used to associate the Level-2 classification with required land use parameters for its implementation in models:
 
-| Level 2 class                       | Permanent cultivation             | Land turnover rate              | Irrigated croplands        | Reduced soil C       |
-|-------------------------------------|-----------------------------------|---------------------------------|----------------------------|----------------------|
-| Tropical intensive agroforestry     | `TRUE`                            | NA                              | `FALSE`                    | ???                  |
-| Swidden / shifting cultivation      | `FALSE`                           | 20% (example)                   | `FALSE`                    | `TRUE`               |
+| Level 2 class                       | Permanent cultivation  | Land turnover rate | Irrigated croplands | Reduced soil C |
+|-------------------------------------|------------------------|--------------------|---------------------|----------------|
+| Tropical intensive agroforestry     | `TRUE`                 | NA                 | `FALSE`             | ???            |
+| Swidden/shifting cultivation        | `FALSE`                | 20% (example)      | `FALSE`             | `TRUE`         |
+| Industrial monocrop/plantation      | `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
+| Flooded field farming               | `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
+| Non-irr. annual cropping w/ animals | `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
+| Non-irr. annual cropping w/o animals| `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
+| Irr. annual cropping w/ animals     | `TRUE`                 | 0%                 | `TRUE`              | `TRUE`         |
+| Irr. annual cropping w/o animals    | `TRUE`                 | 0%                 | `TRUE`              | `TRUE`         |
+| Pastoralism, sedentary              | `TRUE`                 | NA                 | `FALSE`             | `TRUE`         |
+| Pastoralism, mobile/transhumant     | `FALSE`                | NA                 | `FALSE`             | `TRUE`         |
+| Urban                               | `TRUE`                 | 0%                 | `FALSE`             | `TRUE`         |
 
-etc.
+Note that 'urban' is a Level-1 class, but no further distinction is made for applications in models. Other inormation from the Level-1/Level-2 land use classification are not relevant as model forcing. 
 
 ![The LandCover6k land-use classification after Morrison et al., 2018.](img/lu_classes_lc6k.png)
 
-### Harvested area
+### Land suitability
+
+*Gridcell fraction* Defines the fraction of the gridcell that is suitable for agriculture. The remainder remains primary land throughout the entire simulation. This is used to constrain the maximum extent of secondary land. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ESM simulations
